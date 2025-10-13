@@ -6,8 +6,9 @@ import lombok.Getter;
 public enum BizExceptionEnume {
 
 
-    TEMPLATE_FIRST("10001","第一个错误"),
-    TEMPLATE_SECOND("10002","第二个错误");
+    USERNAME_EXIST(10001,"用户名已经被注册"),
+    USER_REGISTER_ERROR(10002,"用户注册失败"),
+    USER_UPDATE_ERROR(10003,"用户修改失败");
 
 
     @Getter
@@ -15,8 +16,8 @@ public enum BizExceptionEnume {
     @Getter
     private String msg;
 
-    private BizExceptionEnume(String code, String msg){
-        this.code = Integer.valueOf(code);
+    private BizExceptionEnume(Integer code, String msg){
+        this.code = code;
         this.msg = msg;
     }
 
