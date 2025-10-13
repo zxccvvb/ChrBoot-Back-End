@@ -1,0 +1,63 @@
+package com.chr.admin.advice;
+
+
+import com.chr.admin.exception.BizException;
+import com.chr.admin.utils.Result;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 全局异常处理器
+ * 异常处理规则：本类>全局
+ */
+
+
+//ControllerAdvice说明组件是专门处理全局异常的
+//RestControllerAdvice = ControllerAdvice + ResponseBody 返回文本
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+
+    //全局处理jsr303参数校验异常
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result handleArithmeticException(MethodArgumentNotValidException e){
+        //将异常输出
+        e.printStackTrace();
+        //这里循环获取参数报错原因
+        BindingResult bindingResult = e.getBindingResult();
+        List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        Map<String,String> map = new HashMap<>();
+        for(FieldError fieldError : fieldErrors){
+            map.put(fieldError.getField(),fieldError.getDefaultMessage());
+        }
+        return Result.build(map,500,"参数异常");
+    }
+
+
+    //业务异常处理
+    @ExceptionHandler(BizException.class)
+    public Result handlerBizException(BizException e){
+        //将异常输出
+        e.printStackTrace();
+        return Result.build(null,e.getCode(),e.getMessage());
+    }
+
+
+    //所有异常最后的处理规则
+    @ExceptionHandler(Exception.class)
+    public Result handleException(Exception e){
+        //将异常输出
+        e.printStackTrace();
+        return  Result.build(null,500,e.getMessage());
+    }
+
+
+
+}
