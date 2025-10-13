@@ -16,6 +16,9 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
 
+        if(s==null){
+            return true;
+        }
         int passwordLength =  s.length();
         if(passwordLength<=10 && passwordLength>=5){
             return true;
