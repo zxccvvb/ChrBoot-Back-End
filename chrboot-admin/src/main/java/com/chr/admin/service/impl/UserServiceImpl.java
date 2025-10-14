@@ -19,6 +19,7 @@ import com.chr.admin.utils.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result updateUser(UserUpdateVo userUpdateVo) {
         User user = new User();
         BeanUtils.copyProperties(userUpdateVo,user);
@@ -85,6 +87,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setVersion(handlerUser.getVersion());
 
         int rows = userMapper.updateById(user);
+
+        int a = 10/0;
         if(rows>0){
             return Result.ok("修改成功");
         }else{
