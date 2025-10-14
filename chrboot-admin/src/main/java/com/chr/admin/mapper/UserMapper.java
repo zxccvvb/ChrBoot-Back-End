@@ -2,6 +2,7 @@ package com.chr.admin.mapper;
 
 import com.chr.admin.pojo.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author dell

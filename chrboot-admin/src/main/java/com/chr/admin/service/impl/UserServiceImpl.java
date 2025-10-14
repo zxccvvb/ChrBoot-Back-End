@@ -14,6 +14,7 @@ import com.chr.admin.pojo.vo.resp.PageRespVo;
 import com.chr.admin.pojo.vo.resp.UserRespVo;
 import com.chr.admin.service.UserService;
 import com.chr.admin.mapper.UserMapper;
+import com.chr.admin.utils.JwtHelper;
 import com.chr.admin.utils.Result;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
 * @author dell
@@ -33,6 +35,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private JwtHelper jwtHelper;
 
     @Override
     public Result getUserListPage(PageVo pageVo) {
@@ -59,7 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         //如果用户名存在直接抛出用户名注册的业务异常
         if(existUsername){
-            throw new BizException(BizExceptionEnume.USERNAME_EXIST);
+            throw new BizException(BizExceptionEnume.USER_EXIST_ERROR);
         }
 
         User user = new User();
@@ -86,6 +90,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }else{
             throw new BizException(BizExceptionEnume.USER_UPDATE_ERROR);
         }
+    }
+
+    @Override
+    public Result login(UserAddVo userAddVo) {
+        boolean existUser = userMapper.exists(new LambdaQueryWrapper<User>().eq(User::getUsername,userAddVo.getUsername()));
+        if(!existUser){
+            throw new BizException(BizExceptionEnume.USER_NOT_EXIST_ERROR);
+        }
+        User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername,userAddVo.getUsername()));
+        if(!Objects.equals(user.getPassword(), userAddVo.getPassword())){
+            throw new BizException(BizExceptionEnume.USER_PASSWORD_ERROR);
+        }
+        String token = jwtHelper.createToken(Long.valueOf(user.getId()));
+
+        return Result.ok(token);
     }
 
 

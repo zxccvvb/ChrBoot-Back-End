@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 import lombok.Data;
+import org.apache.ibatis.annotations.Result;
 
 /**
  * @TableName chr_user

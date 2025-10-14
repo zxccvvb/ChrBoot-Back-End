@@ -26,7 +26,7 @@ public interface UserService extends IService<User> {
 
 
     /**
-     * 注册用户
+     * 注册
      * @return
      */
     Result register(UserAddVo user);
@@ -37,4 +37,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result updateUser(UserUpdateVo user);
+
+    /**
+     * 登录
+     * @param userAddVo
+     * @return
+     */
+    Result login(@Valid UserAddVo userAddVo);
 }

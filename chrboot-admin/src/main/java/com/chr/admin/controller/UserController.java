@@ -29,15 +29,21 @@ public class UserController {
         return  Result.ok(result);
     }
 
-    @PostMapping
-    public Result register(@RequestBody @Valid UserAddVo user){
-        Result result = userService.register(user);
+    @PostMapping("login")
+    public Result login(@RequestBody @Valid UserAddVo userAddVo){
+        Result result = userService.login(userAddVo);
+        return result;
+    }
+
+    @PostMapping("register")
+    public Result register(@RequestBody @Valid UserAddVo userAddVo){
+        Result result = userService.register(userAddVo);
         return result;
     }
 
     @PutMapping
-    public Result updateUser(@RequestBody @Valid UserUpdateVo user){
-        Result result = userService.updateUser(user);
+    public Result updateUser(@RequestBody @Valid UserUpdateVo userUpdateVo){
+        Result result = userService.updateUser(userUpdateVo);
         return result;
     }
 
