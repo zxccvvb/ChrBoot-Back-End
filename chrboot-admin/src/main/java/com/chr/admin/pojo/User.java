@@ -22,7 +22,7 @@ public class User {
     private String password;
 
     //全局设置了删除的字段名
-    private Integer isDeleted;
+    private Boolean isDeleted;
 
     //配置Version添加乐观锁
     @Version
