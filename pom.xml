@@ -93,7 +93,7 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-        <!--Java 11后javax.xml.bind被移除需要自行添加-->
+        <!--Java 11后javax.xml.bind被移除需要自行添加  jwt等依赖需要-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
