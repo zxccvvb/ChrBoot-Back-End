@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     //全局处理jsr303参数校验异常
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result handleArithmeticException(MethodArgumentNotValidException e){
-        //将异常输出
+        //异常打印错误堆栈
         //e.printStackTrace();
         log.error(e.getMessage());
         //这里循环获取参数报错原因
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     //业务异常处理
     @ExceptionHandler(BizException.class)
     public Result handlerBizException(BizException e){
-        //将异常输出
+        //异常打印错误堆栈
         //e.printStackTrace();
         log.error(e.getMessage());
         return Result.build(null,e.getCode(),e.getMessage());
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler {
     //所有异常最后的处理规则
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e){
-        //将异常输出
+        //异常打印错误堆栈
         //e.printStackTrace();
         log.error(e.getMessage());
         return  Result.build(null,500,e.getMessage());
