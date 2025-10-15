@@ -28,12 +28,7 @@ public class HelloWorldController {
 
     @GetMapping
     public void helloWorld(){
-        User user = new User();
-        user.setId(1);
-        user.setUsername("admin112121211");
-        userMapper.updateById(user);
 
-        int a = 10/0;
     }
 
 

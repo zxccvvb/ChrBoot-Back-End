@@ -61,7 +61,8 @@ public class GlobalExceptionHandler {
         //异常打印错误堆栈
         //e.printStackTrace();
         log.error(e.getMessage());
-        return  Result.build(null,500,e.getMessage());
+        return Result.build(null,500,e.getMessage());
+
     }
 
 

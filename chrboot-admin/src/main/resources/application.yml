@@ -46,9 +46,12 @@ logging:
   level:
     root: info
     biz: info
+    mapper: debug
   group:
     biz:
       com.chr.admin.advice
+    mapper:
+      com.chr.admin.mapper
   file:
     # 生成到系统盘
     path: D:\chr\model-chr\Spring

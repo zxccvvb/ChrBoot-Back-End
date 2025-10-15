@@ -43,5 +43,5 @@ public interface UserService extends IService<User> {
      * @param userAddVo
      * @return
      */
-    Result login(@Valid UserAddVo userAddVo);
+    Result login(UserAddVo userAddVo);
 }

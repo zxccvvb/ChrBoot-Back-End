@@ -1,12 +1,9 @@
 package com.chr.admin.controller;
 
 
-import com.chr.admin.pojo.User;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
-import com.chr.admin.pojo.vo.resp.PageRespVo;
-import com.chr.admin.pojo.vo.resp.UserRespVo;
 import com.chr.admin.service.UserService;
 import com.chr.admin.utils.Result;
 import jakarta.validation.Valid;
@@ -43,6 +40,7 @@ public class UserController {
 
     @PutMapping
     public Result updateUser(@RequestBody @Valid UserUpdateVo userUpdateVo){
+        System.out.println(userService.getClass());
         Result result = userService.updateUser(userUpdateVo);
         return result;
     }

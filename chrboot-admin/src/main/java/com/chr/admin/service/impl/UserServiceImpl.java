@@ -16,6 +16,7 @@ import com.chr.admin.service.UserService;
 import com.chr.admin.mapper.UserMapper;
 import com.chr.admin.utils.JwtHelper;
 import com.chr.admin.utils.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ import java.util.Objects;
 * @description 针对表【chr_user】的数据库操作Service实现
 * @createDate 2025-10-13 11:55:39
 */
+
+@Slf4j
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     implements UserService{
@@ -81,14 +84,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result updateUser(UserUpdateVo userUpdateVo) {
+
         User user = new User();
         BeanUtils.copyProperties(userUpdateVo,user);
         User handlerUser = userMapper.selectById(userUpdateVo.getId());
         user.setVersion(handlerUser.getVersion());
-
         int rows = userMapper.updateById(user);
 
         int a = 10/0;
+
+
+        User user1 = new User();
+        user1.setUsername("123456");
+        user1.setPassword("123456");
+        userMapper.insert(user1);
+
         if(rows>0){
             return Result.ok("修改成功");
         }else{
