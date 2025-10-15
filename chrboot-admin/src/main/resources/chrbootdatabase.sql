@@ -1,0 +1,9 @@
+CREATE TABLE `chrbootdatabase`.`chr_user` (
+  `id`         INT AUTO_INCREMENT PRIMARY KEY COMMENT '用户id',
+  `username`   VARCHAR(100) NOT NULL UNIQUE COMMENT '用户名',
+  `password`   VARCHAR(100) NOT NULL COMMENT '用户密码',
+  `is_deleted` BOOLEAN      NOT NULL DEFAULT 0 COMMENT '逻辑删除字段',
+  `version`    INT NOT NULL DEFAULT 0 COMMENT '乐观锁字段',
+  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
+);
