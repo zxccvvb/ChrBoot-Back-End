@@ -90,15 +90,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User handlerUser = userMapper.selectById(userUpdateVo.getId());
         user.setVersion(handlerUser.getVersion());
         int rows = userMapper.updateById(user);
-
-        int a = 10/0;
-
-
-        User user1 = new User();
-        user1.setUsername("123456");
-        user1.setPassword("123456");
-        userMapper.insert(user1);
-
         if(rows>0){
             return Result.ok("修改成功");
         }else{
