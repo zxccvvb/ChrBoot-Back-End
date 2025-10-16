@@ -31,8 +31,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
      * 这里开启swagger的静态网址访问
      * @param registry
      */
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        log.info("开启设置静态资源映射");
-//   }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        log.info("开启设置静态资源映射");
+   }
 }

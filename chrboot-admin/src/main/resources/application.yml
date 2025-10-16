@@ -83,6 +83,7 @@ springdoc:
   group-configs:
     - group: 'default'
       packages-to-scan: com.chr.admin.controller
+      paths-to-match: /**
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true

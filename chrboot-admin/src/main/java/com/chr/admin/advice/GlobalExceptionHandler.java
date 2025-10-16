@@ -3,6 +3,7 @@ package com.chr.admin.advice;
 
 import com.chr.admin.exception.BizException;
 import com.chr.admin.utils.Result;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -25,6 +26,8 @@ import java.util.Map;
 //ControllerAdvice说明组件是专门处理全局异常的
 //RestControllerAdvice = ControllerAdvice + ResponseBody 返回文本
 @RestControllerAdvice
+//避免knife4j无法显示的问题
+@Hidden
 public class GlobalExceptionHandler {
 
 
