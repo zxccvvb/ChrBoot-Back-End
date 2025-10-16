@@ -100,6 +100,12 @@
             <version>2.3.0</version>
         </dependency>
 
+        <!-- Knife4j 4.x (对应 SpringDoc 2.x) -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>4.4.0</version>
+        </dependency>
     </dependencies>
 
     <build>
