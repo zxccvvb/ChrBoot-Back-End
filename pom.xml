@@ -17,6 +17,7 @@
 
     <modules>
         <module>chrboot-admin</module>
+        <module>chrboot-common</module>
     </modules>
 
     <url/>

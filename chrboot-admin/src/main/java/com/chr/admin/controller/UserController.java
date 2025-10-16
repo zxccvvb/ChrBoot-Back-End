@@ -26,7 +26,7 @@ public class UserController {
     @Operation(summary = "用户列表分页接口")
     public Result getUserListPage(PageVo pageVo){
         Result result = userService.getUserListPage(pageVo);
-        return  Result.ok(result);
+        return  result;
     }
 
     @PostMapping("/login")
@@ -46,7 +46,6 @@ public class UserController {
     @PutMapping
     @Operation(summary = "用户更新接口")
     public Result updateUser(@RequestBody @Valid UserUpdateVo userUpdateVo){
-        System.out.println(userService.getClass());
         Result result = userService.updateUser(userUpdateVo);
         return result;
     }

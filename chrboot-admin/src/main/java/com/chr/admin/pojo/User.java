@@ -2,9 +2,8 @@ package com.chr.admin.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.Data;
-import org.apache.ibatis.annotations.Result;
 
 /**
  * @TableName chr_user
@@ -28,7 +27,9 @@ public class User {
     @Version
     private Integer version;
 
-    private Date createTime;
-
-    private Date updateTime;
+    //这里添加全局消息转换器
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+    //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
 }
