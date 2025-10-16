@@ -5,8 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
-import com.chr.admin.utils.Result;
-import jakarta.validation.Valid;
+import com.chr.common.result.Result;
 
 /**
 * @author dell

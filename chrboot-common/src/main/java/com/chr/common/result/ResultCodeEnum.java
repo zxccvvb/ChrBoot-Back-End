@@ -1,4 +1,4 @@
-package com.chr.admin.utils;
+package com.chr.common.result;
 
 /**
  * 统一返回结果状态信息类

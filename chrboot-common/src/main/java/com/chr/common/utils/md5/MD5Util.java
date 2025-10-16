@@ -1,4 +1,4 @@
-package com.chr.admin.utils;
+package com.chr.common.utils.md5;
 
 import org.springframework.stereotype.Component;
 

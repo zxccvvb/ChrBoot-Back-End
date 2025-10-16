@@ -1,8 +1,8 @@
 package com.chr.admin.advice;
 
 
-import com.chr.admin.exception.BizException;
-import com.chr.admin.utils.Result;
+import com.chr.common.exception.BizException;
+import com.chr.common.result.Result;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;

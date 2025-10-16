@@ -1,7 +1,7 @@
-package com.chr.admin.annotation;
+package com.chr.common.annotation;
 
 
-import com.chr.admin.validator.PasswordValidator;
+import com.chr.common.validator.PasswordValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

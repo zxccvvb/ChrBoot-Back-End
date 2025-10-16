@@ -1,8 +1,8 @@
 package com.chr.admin.interceptors;
 
 import com.alibaba.druid.util.StringUtils;
-import com.chr.admin.exception.BizException;
-import com.chr.admin.exception.BizExceptionEnume;
+import com.chr.common.exception.BizException;
+import com.chr.common.enums.BizExceptionEnume;
 import com.chr.admin.utils.JwtHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,7 +1,7 @@
 package com.chr.admin.pojo.vo.req;
 
 
-import com.chr.admin.annotation.Password;
+import com.chr.common.annotation.Password;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

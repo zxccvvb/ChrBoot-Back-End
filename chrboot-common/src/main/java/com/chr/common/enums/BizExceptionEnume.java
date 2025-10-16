@@ -1,4 +1,4 @@
-package com.chr.admin.exception;
+package com.chr.common.enums;
 
 import lombok.Getter;
 

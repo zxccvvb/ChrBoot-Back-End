@@ -5,7 +5,7 @@ import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
 import com.chr.admin.service.UserService;
-import com.chr.admin.utils.Result;
+import com.chr.common.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

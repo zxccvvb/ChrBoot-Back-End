@@ -1,6 +1,7 @@
-package com.chr.admin.exception;
+package com.chr.common.exception;
 
 
+import com.chr.common.enums.BizExceptionEnume;
 import lombok.Data;
 
 @Data
