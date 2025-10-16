@@ -12,10 +12,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 @CrossOrigin
 @Tag(name = "用户接口")
 public class UserController {
@@ -30,14 +29,14 @@ public class UserController {
         return  Result.ok(result);
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     @Operation(summary = "用户登录接口")
     public Result login(@RequestBody @Valid UserAddVo userAddVo){
         Result result = userService.login(userAddVo);
         return result;
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     @Operation(summary = "用户注册接口")
     public Result register(@RequestBody @Valid UserAddVo userAddVo){
         Result result = userService.register(userAddVo);
