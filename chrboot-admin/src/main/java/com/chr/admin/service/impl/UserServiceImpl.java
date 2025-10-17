@@ -14,7 +14,7 @@ import com.chr.admin.pojo.vo.resp.PageRespVo;
 import com.chr.admin.pojo.vo.resp.UserRespVo;
 import com.chr.admin.service.UserService;
 import com.chr.admin.mapper.UserMapper;
-import com.chr.admin.utils.JwtHelper;
+import com.chr.common.utils.jwt.JwtHelper;
 import com.chr.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

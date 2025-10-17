@@ -1,4 +1,4 @@
-package com.chr.admin.utils;
+package com.chr.common.utils.jwt;
 
 import com.alibaba.druid.util.StringUtils;
 import io.jsonwebtoken.*;

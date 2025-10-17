@@ -3,7 +3,7 @@ package com.chr.admin.interceptors;
 import com.alibaba.druid.util.StringUtils;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
-import com.chr.admin.utils.JwtHelper;
+import com.chr.common.utils.jwt.JwtHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
