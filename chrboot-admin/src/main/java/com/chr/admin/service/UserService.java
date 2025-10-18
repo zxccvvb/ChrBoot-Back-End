@@ -7,6 +7,8 @@ import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
+import com.chr.common.annotation.AutoFill;
+import com.chr.common.enums.AutoFillType;
 import com.chr.common.result.Result;
 
 /**

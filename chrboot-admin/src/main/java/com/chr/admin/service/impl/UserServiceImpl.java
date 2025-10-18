@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
+import com.chr.common.annotation.AutoFill;
+import com.chr.common.enums.AutoFillType;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
 import com.chr.admin.pojo.User;
@@ -62,6 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    @AutoFill(AutoFillType.INSERT)
     public Result register(UserAddDTO userAddDTO) {
         User user = new User();
         BeanUtils.copyProperties(userAddDTO,user);
@@ -71,11 +74,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }else{
             throw new BizException(BizExceptionEnume.USER_REGISTER_ERROR);
         }
-
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Result updateUser(UserUpdateVo userUpdateVo) {
 
         User user = new User();

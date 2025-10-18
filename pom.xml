@@ -66,6 +66,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!--引入spring aop启动器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
 
         <!--jsr303注解引入数据校验-->
         <dependency>
