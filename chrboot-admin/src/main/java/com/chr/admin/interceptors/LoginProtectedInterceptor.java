@@ -3,6 +3,7 @@ package com.chr.admin.interceptors;
 import com.alibaba.druid.util.StringUtils;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
+import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,13 +25,15 @@ public class LoginProtectedInterceptor implements HandlerInterceptor {
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         //获取token
         String token = request.getHeader("token");
         //token为空或者token过期则禁止
         if (StringUtils.isEmpty(token) || jwtHelper.isExpiration(token)) {
             throw new BizException(BizExceptionEnume.USER_TOKEN_ERROR);
         }
+        Long userId = jwtHelper.getUserId(token);
+        BaseContext.setCurrentId(userId);
         return true;
     }
 }

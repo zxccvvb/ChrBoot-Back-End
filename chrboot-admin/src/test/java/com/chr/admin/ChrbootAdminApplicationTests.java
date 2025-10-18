@@ -19,7 +19,7 @@ class ChrbootAdminApplicationTests {
         UserUpdateVo userUpdateVo = new UserUpdateVo();
         userUpdateVo.setId(1);
         userUpdateVo.setUsername("test1");
-        userService.updateUser(userUpdateVo);
+        userService.update(userUpdateVo);
     }
 
 }

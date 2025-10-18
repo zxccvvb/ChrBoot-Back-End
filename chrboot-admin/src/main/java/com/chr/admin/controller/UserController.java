@@ -3,6 +3,7 @@ package com.chr.admin.controller;
 
 import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
+import com.chr.admin.pojo.dto.UserUpdateDto;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
@@ -46,9 +47,9 @@ public class UserController {
     }
 
     @PutMapping
-    @Operation(summary = "用户更新接口")
-    public Result updateUser(@RequestBody @Valid UserUpdateVo userUpdateVo){
-        Result result = userService.updateUser(userUpdateVo);
+    @Operation(summary = "根据id修改用户接口")
+    public Result updateUser(@RequestBody @Valid UserUpdateDto userUpdateDto){
+        Result result = userService.updateById(userUpdateDto);
         return result;
     }
 

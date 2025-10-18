@@ -4,6 +4,7 @@ import com.chr.admin.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
+import com.chr.admin.pojo.dto.UserUpdateDto;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
@@ -39,7 +40,7 @@ public interface UserService extends IService<User> {
      * 修改用户信息
      * @return
      */
-    Result updateUser(UserUpdateVo user);
+    Result update(UserUpdateVo user);
 
     /**
      * 登录
@@ -47,4 +48,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result login(UserLoginDTO userLoginDTO);
+
+    /**
+     * 根据id去修改用户信息
+     * @param userUpdateDto
+     * @return
+     */
+    Result updateById(UserUpdateDto userUpdateDto);
 }

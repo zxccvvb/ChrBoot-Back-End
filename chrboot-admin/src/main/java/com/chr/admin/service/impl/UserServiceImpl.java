@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
+import com.chr.admin.pojo.dto.UserUpdateDto;
 import com.chr.common.annotation.AutoFill;
 import com.chr.common.enums.AutoFillType;
 import com.chr.common.exception.BizException;
@@ -77,7 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Result updateUser(UserUpdateVo userUpdateVo) {
+    public Result update(UserUpdateVo userUpdateVo) {
 
         User user = new User();
         BeanUtils.copyProperties(userUpdateVo,user);
@@ -104,6 +105,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         String token = jwtHelper.createToken(user.getId());
 
         return Result.ok(token);
+    }
+
+    @Override
+    public Result updateById(UserUpdateDto userUpdateDto) {
+        User user = new User();
+        BeanUtils.copyProperties(userUpdateDto,user);
+        int rows = userMapper.updateById(user);
+        if(rows==0){
+            throw new BizException(BizExceptionEnume.USER_UPDATE_ERROR);
+        }
+        return Result.ok("修改成功");
     }
 
 
