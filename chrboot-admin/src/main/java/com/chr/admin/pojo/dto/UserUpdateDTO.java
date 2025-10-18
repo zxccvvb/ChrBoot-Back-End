@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 @Data
-public class UserUpdateDto {
+public class UserUpdateDTO implements Serializable {
 
     @NotNull
     private Long id;
@@ -19,4 +21,6 @@ public class UserUpdateDto {
 
     @Password //自定义属性校验注解
     private String password;
+
+    private Integer status;
 }

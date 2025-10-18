@@ -6,9 +6,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 @Data
-public class UserAddDTO {
+public class UserAddDTO implements Serializable {
 
     @NotBlank
     private String nickname;

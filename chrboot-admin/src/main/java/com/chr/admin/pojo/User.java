@@ -2,6 +2,7 @@ package com.chr.admin.pojo;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import lombok.Data;
  */
 @TableName(value ="chr_user")
 @Data
-public class User {
+public class User implements Serializable {
 
 
     @TableId
@@ -19,7 +20,7 @@ public class User {
     private String nickname;
     private String username;
     private String password;
-    private int status;
+    private Integer status;
 
     //全局设置了删除的字段名
     private Boolean isDeleted;

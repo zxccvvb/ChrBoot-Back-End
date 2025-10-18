@@ -6,26 +6,23 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
-import com.chr.admin.pojo.dto.UserUpdateDto;
+import com.chr.admin.pojo.dto.UserPageQueryDTO;
+import com.chr.admin.pojo.dto.UserUpdateDTO;
+import com.chr.admin.pojo.vo.UserVo;
 import com.chr.common.annotation.AutoFill;
 import com.chr.common.enums.AutoFillType;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
 import com.chr.admin.pojo.User;
-import com.chr.admin.pojo.vo.req.PageVo;
-import com.chr.admin.pojo.vo.req.UserAddVo;
-import com.chr.admin.pojo.vo.req.UserUpdateVo;
-import com.chr.admin.pojo.vo.resp.PageRespVo;
-import com.chr.admin.pojo.vo.resp.UserRespVo;
 import com.chr.admin.service.UserService;
 import com.chr.admin.mapper.UserMapper;
+import com.chr.common.result.PageResult;
 import com.chr.common.utils.jwt.JwtHelper;
 import com.chr.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,20 +45,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private JwtHelper jwtHelper;
 
     @Override
-    public Result getUserListPage(PageVo pageVo) {
-        IPage<User> page = new Page(pageVo.getPageNum(), pageVo.getPageSize());
-        userMapper.selectPage(page, null);
+    public Result getUserListPage(UserPageQueryDTO userPageQueryDTO) {
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(userPageQueryDTO.getNickname()!=null,User::getNickname,userPageQueryDTO.getNickname());
+        IPage<User> page = new Page(userPageQueryDTO.getPageNum(), userPageQueryDTO.getPageSize());
+        userMapper.selectPage(page, queryWrapper);
         List<User> userList = page.getRecords();
-        List<UserRespVo> userRespVoList = new ArrayList<>();
-
+        List<UserVo> userVoList = new ArrayList<>();
         //脱敏
         for (User user : userList) {
-            UserRespVo userRespVo = new UserRespVo();
-            BeanUtils.copyProperties(user,userRespVo);
-            userRespVoList.add(userRespVo);
+            UserVo userVo = new UserVo();
+            BeanUtils.copyProperties(user,userVo);
+            userVoList.add(userVo);
         }
-        PageRespVo<UserRespVo> userPageRespVo = new PageRespVo<>(userRespVoList,page.getTotal(),page.getCurrent(),page.getSize());
-        return Result.ok(userPageRespVo);
+        PageResult<UserVo> pageResult = new PageResult<>(page.getTotal(),userVoList);
+        return Result.ok(pageResult);
     }
 
     @Override
@@ -74,21 +72,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             return Result.ok("注册成功");
         }else{
             throw new BizException(BizExceptionEnume.USER_REGISTER_ERROR);
-        }
-    }
-
-    @Override
-    public Result update(UserUpdateVo userUpdateVo) {
-
-        User user = new User();
-        BeanUtils.copyProperties(userUpdateVo,user);
-        User handlerUser = userMapper.selectById(userUpdateVo.getId());
-//        user.setVersion(handlerUser.getVersion());
-        int rows = userMapper.updateById(user);
-        if(rows>0){
-            return Result.ok("修改成功");
-        }else{
-            throw new BizException(BizExceptionEnume.USER_UPDATE_ERROR);
         }
     }
 
@@ -108,9 +91,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Result updateById(UserUpdateDto userUpdateDto) {
+    public Result updateById(UserUpdateDTO userUpdateDTO) {
         User user = new User();
-        BeanUtils.copyProperties(userUpdateDto,user);
+        BeanUtils.copyProperties(userUpdateDTO,user);
         int rows = userMapper.updateById(user);
         if(rows==0){
             throw new BizException(BizExceptionEnume.USER_UPDATE_ERROR);
