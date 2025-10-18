@@ -14,20 +14,18 @@ public class User {
 
 
     @TableId
-    private Integer id;
+    private Long id;
 
+    private String nickname;
     private String username;
-
     private String password;
+    private int status;
 
     //全局设置了删除的字段名
     private Boolean isDeleted;
-
-    //配置Version添加乐观锁
-    @Version
-    private Integer version;
-
     //这里添加全局消息转换器
+    private Long createUser;
+    private Long updateUser;
     //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
     //@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -1,6 +1,7 @@
 package com.chr.admin.controller;
 
 
+import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
@@ -31,8 +32,8 @@ public class UserController {
 
     @PostMapping("/login")
     @Operation(summary = "用户登录接口")
-    public Result login(@RequestBody @Valid UserAddVo userAddVo){
-        Result result = userService.login(userAddVo);
+    public Result login(@RequestBody @Valid UserLoginDTO userLoginDTO){
+        Result result = userService.login(userLoginDTO);
         return result;
     }
 

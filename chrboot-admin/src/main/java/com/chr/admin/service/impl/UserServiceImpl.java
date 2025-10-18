@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
 import com.chr.admin.pojo.User;
@@ -88,7 +89,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         User user = new User();
         BeanUtils.copyProperties(userUpdateVo,user);
         User handlerUser = userMapper.selectById(userUpdateVo.getId());
-        user.setVersion(handlerUser.getVersion());
+//        user.setVersion(handlerUser.getVersion());
         int rows = userMapper.updateById(user);
         if(rows>0){
             return Result.ok("修改成功");
@@ -98,16 +99,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Result login(UserAddVo userAddVo) {
-        boolean existUser = userMapper.exists(new LambdaQueryWrapper<User>().eq(User::getUsername,userAddVo.getUsername()));
+    public Result login(UserLoginDTO userLoginDTO) {
+        boolean existUser = userMapper.exists(new LambdaQueryWrapper<User>().eq(User::getUsername,userLoginDTO.getUsername()));
         if(!existUser){
             throw new BizException(BizExceptionEnume.USER_NOT_EXIST_ERROR);
         }
-        User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername,userAddVo.getUsername()));
-        if(!Objects.equals(user.getPassword(), userAddVo.getPassword())){
+        User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername,userLoginDTO.getUsername()));
+        if(!Objects.equals(user.getPassword(), userLoginDTO.getPassword())){
             throw new BizException(BizExceptionEnume.USER_PASSWORD_ERROR);
         }
-        String token = jwtHelper.createToken(Long.valueOf(user.getId()));
+        String token = jwtHelper.createToken(user.getId());
 
         return Result.ok(token);
     }

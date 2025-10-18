@@ -2,6 +2,7 @@ package com.chr.admin.service;
 
 import com.chr.admin.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
 import com.chr.admin.pojo.vo.req.UserUpdateVo;
@@ -39,8 +40,8 @@ public interface UserService extends IService<User> {
 
     /**
      * 登录
-     * @param userAddVo
+     * @param userLoginDTO
      * @return
      */
-    Result login(UserAddVo userAddVo);
+    Result login(UserLoginDTO userLoginDTO);
 }

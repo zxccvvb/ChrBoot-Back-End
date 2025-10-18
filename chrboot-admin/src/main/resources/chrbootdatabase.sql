@@ -18,11 +18,11 @@ CREATE TABLE chr_dict_type (
    `id`          bigint NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '字典类型id',
    `name`        VARCHAR(32) NOT NULL UNIQUE COMMENT '类型名称',
    `description` VARCHAR(128) NOT NULL COMMENT '中文说明',
-   `is_deleted`  BOOLEAN NOT NULL DEFAULT 0 COMMENT '逻辑删除字段',
-   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-   `create_user` bigint DEFAULT NULL COMMENT '创建人',
-   `update_user` bigint DEFAULT NULL COMMENT '修改人'
+   `is_deleted`  BOOLEAN NOT NULL DEFAULT 0 COMMENT '逻辑删除字段'
+#    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+#    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+#    `create_user` bigint DEFAULT NULL COMMENT '创建人',
+#    `update_user` bigint DEFAULT NULL COMMENT '修改人'
 ) COMMENT='字典类型';
 
 -- 字典值表
@@ -32,9 +32,9 @@ CREATE TABLE chr_dict_item (
    `value`       int NOT NULL COMMENT '值编码',
    `label`       VARCHAR(64) NOT NULL COMMENT '显示文本',
    `sort`        int NOT NULL DEFAULT 0,
-   `is_deleted`  BOOLEAN NOT NULL DEFAULT 0 COMMENT '逻辑删除字段',
-   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-   `create_user` bigint DEFAULT NULL COMMENT '创建人',
-   `update_user` bigint DEFAULT NULL COMMENT '修改人'
+   `is_deleted`  BOOLEAN NOT NULL DEFAULT 0 COMMENT '逻辑删除字段'
+#    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+#    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+#    `create_user` bigint DEFAULT NULL COMMENT '创建人',
+#    `update_user` bigint DEFAULT NULL COMMENT '修改人'
 ) COMMENT='字典值';
