@@ -1,5 +1,7 @@
 # 连接池配置
 spring:
+  profiles:
+    active: basic
   application:
     name:
       chrboot-admin
@@ -96,3 +98,9 @@ jwt:
   token:
     tokenExpiration: 120 #有效时间,单位分钟
     tokenSignKey: chrboot123456  #当前程序签名秘钥 自定义
+# alioss配置
+alioss:
+  access-key-id:
+  access-key-secret:
+  bucket-name:
+  endpoint:
