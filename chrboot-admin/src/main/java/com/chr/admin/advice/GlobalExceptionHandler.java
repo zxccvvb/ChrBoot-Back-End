@@ -5,12 +5,14 @@ import com.chr.common.exception.BizException;
 import com.chr.common.result.Result;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,12 +49,23 @@ public class GlobalExceptionHandler {
         return Result.build(map,500,"参数异常");
     }
 
+    //数据库重复值异常
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Result handlerDataIntegrityViolationException(DataIntegrityViolationException err){
+        SQLIntegrityConstraintViolationException e = (SQLIntegrityConstraintViolationException) err.getCause();
+        log.error(e.getMessage());
+        if(e.getMessage().contains("Duplicate entry")){
+            String[] split = e.getMessage().split(" ");
+            String message = split[2] + "已存在";
+            return Result.build(null,500,message);
+        }
+        return Result.build(null,500,e.getMessage());
+    }
+
 
     //业务异常处理
     @ExceptionHandler(BizException.class)
     public Result handlerBizException(BizException e){
-        //异常打印错误堆栈
-        //e.printStackTrace();
         log.error(e.getMessage());
         return Result.build(null,e.getCode(),e.getMessage());
     }
@@ -65,7 +78,6 @@ public class GlobalExceptionHandler {
         //e.printStackTrace();
         log.error(e.getMessage());
         return Result.build(null,500,e.getMessage());
-
     }
 
 

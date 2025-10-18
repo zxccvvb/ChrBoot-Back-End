@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
@@ -61,18 +62,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Result register(UserAddVo userAddVo) {
-        LambdaQueryWrapper<User> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(User::getUsername,userAddVo.getUsername());
-        boolean existUsername = userMapper.exists(lambdaQueryWrapper);
-
-        //如果用户名存在直接抛出用户名注册的业务异常
-        if(existUsername){
-            throw new BizException(BizExceptionEnume.USER_EXIST_ERROR);
-        }
-
+    public Result register(UserAddDTO userAddDTO) {
         User user = new User();
-        BeanUtils.copyProperties(userAddVo,user);
+        BeanUtils.copyProperties(userAddDTO,user);
         int rows = userMapper.insert(user);
         if(rows>0){
             return Result.ok("注册成功");

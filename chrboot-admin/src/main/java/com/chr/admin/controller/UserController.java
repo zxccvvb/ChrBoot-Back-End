@@ -1,6 +1,7 @@
 package com.chr.admin.controller;
 
 
+import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
@@ -39,8 +40,8 @@ public class UserController {
 
     @PostMapping("/register")
     @Operation(summary = "用户注册接口")
-    public Result register(@RequestBody @Valid UserAddVo userAddVo){
-        Result result = userService.register(userAddVo);
+    public Result register(@RequestBody @Valid UserAddDTO userAddDTO){
+        Result result = userService.register(userAddDTO);
         return result;
     }
 

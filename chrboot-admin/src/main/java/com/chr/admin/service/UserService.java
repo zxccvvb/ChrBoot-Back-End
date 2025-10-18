@@ -2,6 +2,7 @@ package com.chr.admin.service;
 
 import com.chr.admin.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chr.admin.pojo.dto.UserAddDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.admin.pojo.vo.req.PageVo;
 import com.chr.admin.pojo.vo.req.UserAddVo;
@@ -29,7 +30,7 @@ public interface UserService extends IService<User> {
      * 注册
      * @return
      */
-    Result register(UserAddVo user);
+    Result register(UserAddDTO userAddDTO);
 
 
     /**
