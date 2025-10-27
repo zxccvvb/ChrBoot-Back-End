@@ -38,6 +38,13 @@ public class UserController {
         return result;
     }
 
+    @GetMapping("/info")
+    @Operation(summary = "用户信息接口")
+    public Result getUserInfo(){
+        Result result = userService.getUserInfo();
+        return result;
+    }
+
     @PostMapping("/register")
     @Operation(summary = "用户注册接口")
     public Result register(@RequestBody @Valid UserAddDTO userAddDTO){

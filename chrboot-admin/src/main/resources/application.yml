@@ -10,7 +10,7 @@ spring:
     druid:
       url: jdbc:mysql:///chrbootdatabase
       username: root
-      password: admin
+      password: root123
       driver-class-name: com.mysql.cj.jdbc.Driver
   banner:
     location: classpath:banner.txt

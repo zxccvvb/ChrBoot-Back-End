@@ -28,7 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("添加拦截器");
-        registry.addInterceptor(loginProtectedInterceptor).addPathPatterns("/user/**").excludePathPatterns(new String[]{"/user/login", "/user/register"});
+        registry.addInterceptor(loginProtectedInterceptor).addPathPatterns("/admin/**").excludePathPatterns(new String[]{"/admin/user/login", "/admin/user/register","/admin/common/upload"});
     }
 
     /**

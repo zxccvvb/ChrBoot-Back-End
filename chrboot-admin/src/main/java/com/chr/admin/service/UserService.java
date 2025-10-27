@@ -45,4 +45,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result updateById(UserUpdateDTO userUpdateDTO);
+
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    Result getUserInfo();
 }
