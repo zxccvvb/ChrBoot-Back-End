@@ -14,6 +14,12 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   banner:
     location: classpath:banner.txt
+  servlet:
+    multipart:
+      #  最大文件大小，默认为10M
+      max-file-size: 10MB
+      # 最大请求大小，默认为10M
+      max-request-size: 10MB
 
 # server配置
 server:
@@ -40,8 +46,10 @@ mybatis-plus:
   global-config:
     db-config:
       logic-delete-field: isDeleted  #全局逻辑删除
-      id-type: auto #主键策略自增长
+      id-type: auto #设置主键策略为自增长
       table-prefix: chr_ # 设置表的前缀
+  configuration:
+    auto-mapping-behavior: full #开启自动映射
 
 # 日志配置
 logging:
@@ -56,7 +64,7 @@ logging:
       com.chr.admin.mapper
   file:
     # 生成到系统盘
-    path: D:\chr\model-chr\Spring
+    path: D:\chr\ChrBootLog
     # 生成到项目的根目录
     #name: chrboot.log
   logback:

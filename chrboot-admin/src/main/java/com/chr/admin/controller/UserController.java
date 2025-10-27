@@ -10,6 +10,7 @@ import com.chr.common.result.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class UserController {
 
     @GetMapping
     @Operation(summary = "用户列表分页接口")
-    public Result getUserListPage(UserPageQueryDTO userPageQueryDTO){
+    public Result getUserListPage(@ParameterObject UserPageQueryDTO userPageQueryDTO){
         Result result = userService.getUserListPage(userPageQueryDTO);
         return  result;
     }
