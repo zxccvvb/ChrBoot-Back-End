@@ -8,8 +8,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+
 @Data
-public class UserAddDTO implements Serializable {
+public class UserRegisterDTO implements Serializable {
 
     @NotBlank
     private String nickname;
@@ -21,7 +22,4 @@ public class UserAddDTO implements Serializable {
     @NotBlank
     @Password //自定义属性校验注解
     private String password;
-
-    @NotNull
-    private Integer status;
 }

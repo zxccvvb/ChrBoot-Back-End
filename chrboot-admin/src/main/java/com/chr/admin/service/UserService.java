@@ -2,7 +2,7 @@ package com.chr.admin.service;
 
 import com.chr.admin.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chr.admin.pojo.dto.UserAddDTO;
+import com.chr.admin.pojo.dto.UserRegisterDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.admin.pojo.dto.UserPageQueryDTO;
 import com.chr.admin.pojo.dto.UserUpdateDTO;
@@ -19,7 +19,7 @@ public interface UserService extends IService<User> {
      * 注册
      * @return
      */
-    Result register(UserAddDTO userAddDTO);
+    Result register(UserRegisterDTO userRegisterDTO);
 
 
     /**
@@ -40,11 +40,11 @@ public interface UserService extends IService<User> {
 
 
     /**
-     * 根据id去修改用户信息
+     * 修改用户信息
      * @param userUpdateDTO
      * @return
      */
-    Result updateById(UserUpdateDTO userUpdateDTO);
+    Result updateUser(UserUpdateDTO userUpdateDTO);
 
 
     /**
@@ -52,4 +52,19 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result getUserInfo();
+
+
+    /**
+     *添加新用户
+     * @param userRegisterDTO
+     * @return
+     */
+    Result addUser(UserRegisterDTO userRegisterDTO);
+
+    /**
+     * 获取用户
+     * @param id
+     * @return
+     */
+    Result getUser(Long id);
 }

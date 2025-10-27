@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chr.admin.pojo.dto.UserAddDTO;
+import com.chr.admin.pojo.dto.UserRegisterDTO;
 import com.chr.admin.pojo.dto.UserLoginDTO;
 import com.chr.admin.pojo.dto.UserPageQueryDTO;
 import com.chr.admin.pojo.dto.UserUpdateDTO;
+import com.chr.admin.pojo.vo.UserInfoVO;
 import com.chr.admin.pojo.vo.UserVO;
-import com.chr.common.annotation.AutoFill;
-import com.chr.common.enums.AutoFillType;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
 import com.chr.admin.pojo.User;
@@ -55,19 +54,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         List<UserVO> userVOList = new ArrayList<>();
         //脱敏
         for (User user : userList) {
-            UserVO userVo = new UserVO();
-            BeanUtils.copyProperties(user,userVo);
-            userVOList.add(userVo);
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user, userVO);
+            userVOList.add(userVO);
         }
         PageResult<UserVO> pageResult = new PageResult<>(page.getTotal(), userVOList);
         return Result.ok(pageResult);
     }
 
     @Override
-    @AutoFill(AutoFillType.INSERT)
-    public Result register(UserAddDTO userAddDTO) {
+//    @AutoFill(AutoFillType.INSERT)
+    public Result register(UserRegisterDTO userRegisterDTO) {
         User user = new User();
-        BeanUtils.copyProperties(userAddDTO,user);
+        BeanUtils.copyProperties(userRegisterDTO,user);
         int rows = userMapper.insert(user);
         if(rows>0){
             return Result.ok("注册成功");
@@ -92,7 +91,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Result updateById(UserUpdateDTO userUpdateDTO) {
+    public Result updateUser(UserUpdateDTO userUpdateDTO) {
         User user = new User();
         BeanUtils.copyProperties(userUpdateDTO,user);
         int rows = userMapper.updateById(user);
@@ -107,9 +106,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public Result getUserInfo() {
         Long id = BaseContext.getCurrentId();
         User user = userMapper.selectById(id);
-        UserVO userVo = new UserVO();
-        BeanUtils.copyProperties(user,userVo);
-        return Result.ok(userVo);
+        UserInfoVO userInfoVo = new UserInfoVO();
+        BeanUtils.copyProperties(user, userInfoVo);
+        return Result.ok(userInfoVo);
+    }
+
+    @Override
+    public Result addUser(UserRegisterDTO userRegisterDTO) {
+        User user = new User();
+        BeanUtils.copyProperties(userRegisterDTO,user);
+        int rows = userMapper.insert(user);
+        if(rows>0){
+            return Result.ok(null);
+        }
+        throw new BizException(BizExceptionEnume.USER_ADD_ERROR);
+    }
+
+    @Override
+    public Result getUser(Long id) {
+        User user = userMapper.selectById(id);
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        return Result.ok(userVO);
     }
 }
 

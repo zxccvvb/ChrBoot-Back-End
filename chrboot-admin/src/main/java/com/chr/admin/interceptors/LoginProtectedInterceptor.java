@@ -7,6 +7,7 @@ import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
  */
 
 @Component
+@Slf4j
 public class LoginProtectedInterceptor implements HandlerInterceptor {
 
 
@@ -33,6 +35,7 @@ public class LoginProtectedInterceptor implements HandlerInterceptor {
             throw new BizException(BizExceptionEnume.USER_TOKEN_ERROR);
         }
         Long userId = jwtHelper.getUserId(token);
+        log.info("当前用户id为：{}",userId);
         BaseContext.setCurrentId(userId);
         return true;
     }
