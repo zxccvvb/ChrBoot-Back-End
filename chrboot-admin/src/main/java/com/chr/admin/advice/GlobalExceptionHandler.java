@@ -62,6 +62,14 @@ public class GlobalExceptionHandler {
         return Result.build(null,500,e.getMessage());
     }
 
+    //数据库查询为空
+    @ExceptionHandler(IllegalArgumentException.class)
+    public Result handlerIllegalArgumentException(IllegalArgumentException e){
+        log.error(e.getMessage());
+        String message = "查询结果为空";
+        return Result.build(null,500,message);
+    }
+
 
     //业务异常处理
     @ExceptionHandler(BizException.class)
@@ -75,7 +83,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e){
         //异常打印错误堆栈
-        //e.printStackTrace();
+        e.printStackTrace();
         log.error(e.getMessage());
         return Result.build(null,500,e.getMessage());
     }
