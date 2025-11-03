@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +61,7 @@ public class UserController {
         return  result;
     }
 
+    @CacheEvict(value = "user",key = "#userUpdateDTO.id")
     @PutMapping
     @Operation(summary = "修改用户接口")
     public Result updateUser(@RequestBody @Valid UserUpdateDTO userUpdateDTO){
