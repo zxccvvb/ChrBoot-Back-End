@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -75,6 +76,7 @@ public class UserController {
         return result;
     }
 
+    @Cacheable(value = "user",key = "#id")
     @GetMapping("/{id}")
     @Operation(summary = "获取用户接口")
     public Result getUserById(@PathVariable Long id){

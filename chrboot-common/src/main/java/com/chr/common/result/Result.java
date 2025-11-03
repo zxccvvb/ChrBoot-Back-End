@@ -1,9 +1,11 @@
 package com.chr.common.result;
 
+import java.io.Serializable;
+
 /**
  * 全局统一返回结果类
  */
-public class Result<T> {
+public class Result<T> implements Serializable {
     // 返回码
     private Integer code;
     // 返回消息

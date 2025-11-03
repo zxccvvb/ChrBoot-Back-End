@@ -17,7 +17,6 @@ import javax.sql.DataSource;
  * 数据库引擎使用innodb引擎 否则事务管理会失败
  */
 @Configuration
-@EnableTransactionManagement
 public class MybatisConfig {
 
     //配置mybatis插件
