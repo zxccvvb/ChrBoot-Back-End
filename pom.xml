@@ -141,6 +141,12 @@
             <version>2.0.59</version>
         </dependency>
 
+        <!--引入websocket-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
