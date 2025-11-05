@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "jwt.token")
+@ConfigurationProperties(prefix = "chrboot.jwt.token")
 public class JwtHelper {
 
     private  long tokenExpiration; //有效时间,单位毫秒 1000毫秒 == 1秒

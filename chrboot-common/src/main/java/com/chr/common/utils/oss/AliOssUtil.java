@@ -16,7 +16,7 @@ import java.io.ByteArrayInputStream;
 @Data
 @Slf4j
 @Component
-@ConfigurationProperties(prefix = "alioss")
+@ConfigurationProperties(prefix = "chrboot.alioss")
 public class AliOssUtil {
 
     private String endpoint;
