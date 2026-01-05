@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Data
 public class UserVO implements Serializable {
     private Long id;
-
     private String nickname;
     private String username;
     private String password;

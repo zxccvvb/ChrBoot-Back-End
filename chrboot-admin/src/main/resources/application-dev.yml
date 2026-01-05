@@ -4,7 +4,7 @@ spring:
     druid:
       url: jdbc:mysql:///chrbootdatabase
       username: root
-      password: root123
+      password: root
   # redis配置
   data:
     redis:
@@ -37,7 +37,7 @@ springdoc:
     path: ${chrboot.api-prefix}/swagger-ui.html
   api-docs:
     enabled: true
-    path: ${chrboot.api-prefix}/v3/api-docs
+    path: /v3/api-docs
 
 chrboot:
   # 前端url转发前缀
