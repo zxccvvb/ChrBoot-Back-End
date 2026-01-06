@@ -15,6 +15,7 @@ import com.chr.common.result.Result;
 */
 public interface UserService extends IService<User> {
 
+    //    *************用户端*************
     /**
      * 注册
      * @return
@@ -31,6 +32,14 @@ public interface UserService extends IService<User> {
 
 
     /**
+     * 获取用户信息
+     * @return
+     */
+    Result getUserInfo();
+
+
+    //    *************管理端*************
+    /**
      * 获取所有用户列表
      * 分页
      * @param userPageQueryDTO
@@ -45,13 +54,6 @@ public interface UserService extends IService<User> {
      * @return
      */
     Result updateUser(UserUpdateDTO userUpdateDTO);
-
-
-    /**
-     * 获取用户信息
-     * @return
-     */
-    Result getUserInfo();
 
 
     /**
