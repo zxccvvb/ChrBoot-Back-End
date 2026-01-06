@@ -70,16 +70,16 @@ public enum ErrorCode implements ErrorCodeInterface {
      */
     public enum Business implements ErrorCodeInterface {
 
-        USER_TOKEN_ERROR(401,"token已经过期","token.test1"),
-        FILE_UPLOAD_ERROR(1000,"文件上传失败","token.test1" ),
-        USER_EXIST_ERROR(10001,"用户已存在","token.test1"),
-        USER_REGISTER_ERROR(10002,"用户注册失败","token.test1"),
-        USER_UPDATE_ERROR(10003,"用户修改失败","token.test1"),
-        USER_LOGIN_ERROR(10004,"用户未登录","token.test1"),
-        USER_NOT_EXIST_ERROR(10005,"用户名不存在","token.test1"),
-        USER_PASSWORD_ERROR(10006,"用户密码错误","token.test1"),
-        USER_DELETE_ERROR(10007,"用户删除失败","token.test1"),
-        USER_ADD_ERROR(10008,"用户添加失败","token.test1");
+        USER_TOKEN_ERROR(10001,"token已经过期","Business.test1"),
+        FILE_UPLOAD_ERROR(10002,"文件上传失败","Business.test1" ),
+        USER_EXIST_ERROR(10003,"用户已存在","Business.test1"),
+        USER_REGISTER_ERROR(10004,"用户注册失败","Business.test1"),
+        USER_UPDATE_ERROR(10005,"用户修改失败","Business.test1"),
+        USER_LOGIN_ERROR(10006,"用户未登录","Business.test1"),
+        USER_NOT_EXIST_ERROR(10007,"用户名不存在","Business.test1"),
+        USER_PASSWORD_ERROR(10008,"用户密码错误","Business.test1"),
+        USER_DELETE_ERROR(10009,"用户删除失败","Business.test1"),
+        USER_ADD_ERROR(10010,"用户添加失败","Business.test1");
 
 
         private final int code;
