@@ -65,7 +65,7 @@ public class ApiException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return i18nMessage != null ? i18nMessage : message;
+        return message;
     }
 
     @Override

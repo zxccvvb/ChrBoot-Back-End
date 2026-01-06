@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
     public Result handlerBizException(ApiException e){
         log.error(e.getMessage());
         log.info(e.toString());
-        return Result.build(null,e.getErrorCode().code(),e.getLocalizedMessage());
+        return Result.build(null,e.getErrorCode().code(),e.getMessage());
     }
 
 
