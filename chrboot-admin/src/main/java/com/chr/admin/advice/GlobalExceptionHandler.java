@@ -1,7 +1,7 @@
 package com.chr.admin.advice;
 
 
-import com.chr.common.exception.BizException;
+import com.chr.common.exception.ApiException;
 import com.chr.common.result.Result;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
@@ -72,10 +72,10 @@ public class GlobalExceptionHandler {
 
 
     //业务异常处理
-    @ExceptionHandler(BizException.class)
-    public Result handlerBizException(BizException e){
+    @ExceptionHandler(ApiException.class)
+    public Result handlerBizException(ApiException e){
         log.error(e.getMessage());
-        return Result.build(null,e.getCode(),e.getMessage());
+        return Result.build(null,e.getErrorCode().code(),e.getMessage());
     }
 
 

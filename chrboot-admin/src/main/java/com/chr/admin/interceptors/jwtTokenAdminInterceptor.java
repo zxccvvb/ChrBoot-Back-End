@@ -2,8 +2,9 @@ package com.chr.admin.interceptors;
 
 import com.alibaba.druid.util.StringUtils;
 import com.chr.common.constant.JwtClaimsConstant;
-import com.chr.common.exception.BizException;
-import com.chr.common.enums.BizExceptionEnume;
+import com.chr.common.exception.ApiException;
+import com.chr.common.exception.error.ErrorCode;
+import com.chr.common.exception.error.ErrorCode.Business;
 import com.chr.common.properties.JwtProperties;
 import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
@@ -44,7 +45,7 @@ public class jwtTokenAdminInterceptor implements HandlerInterceptor {
         String token = request.getHeader(jwtProperties.getAdminTokenName());
         //token为空或者token过期则禁止
         if (StringUtils.isEmpty(token) || JwtHelper.isExpiration(token,jwtProperties.getAdminSecretKey())) {
-            throw new BizException(BizExceptionEnume.USER_TOKEN_ERROR);
+            throw new ApiException(Business.USER_TOKEN_ERROR);
         }
         Claims employe = JwtHelper.parseJWT(token,jwtProperties.getAdminSecretKey());
         log.info("当前员工id为：{}",employe.get(JwtClaimsConstant.EMP_ID));

@@ -4,8 +4,9 @@ import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
-import com.chr.common.enums.BizExceptionEnume;
-import com.chr.common.exception.BizException;
+import com.chr.common.exception.ApiException;
+import com.chr.common.exception.error.ErrorCode;
+import com.chr.common.exception.error.ErrorCode.Business;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -46,13 +47,13 @@ public class AliOssUtil {
             log.error("Error Code:" + oe.getErrorCode());
             log.error("Request ID:" + oe.getRequestId());
             log.error("Host ID:" + oe.getHostId());
-            throw new BizException(BizExceptionEnume.FILE_UPLOAD_ERROR);
+            throw new ApiException(Business.FILE_UPLOAD_ERROR);
         } catch (ClientException ce) {
             log.error("Caught an ClientException, which means the client encountered "
                     + "a serious internal problem while trying to communicate with OSS, "
                     + "such as not being able to access the network.");
             log.error("Error Message:" + ce.getMessage());
-            throw new BizException(BizExceptionEnume.FILE_UPLOAD_ERROR);
+            throw new ApiException(Business.FILE_UPLOAD_ERROR);
         } finally {
             if (ossClient != null) {
                 ossClient.shutdown();

@@ -11,11 +11,12 @@ import com.chr.admin.pojo.dto.UserUpdateDTO;
 import com.chr.admin.pojo.vo.UserInfoVO;
 import com.chr.admin.pojo.vo.UserVO;
 import com.chr.common.constant.JwtClaimsConstant;
-import com.chr.common.exception.BizException;
-import com.chr.common.enums.BizExceptionEnume;
 import com.chr.admin.pojo.User;
 import com.chr.admin.service.UserService;
 import com.chr.admin.mapper.UserMapper;
+import com.chr.common.exception.ApiException;
+import com.chr.common.exception.error.ErrorCode;
+import com.chr.common.exception.error.ErrorCode.Business;
 import com.chr.common.properties.JwtProperties;
 import com.chr.common.result.PageResult;
 import com.chr.common.utils.context.BaseContext;
@@ -71,7 +72,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if(rows>0){
             return Result.ok("注册成功");
         }else{
-            throw new BizException(BizExceptionEnume.USER_REGISTER_ERROR);
+            throw new ApiException(Business.USER_REGISTER_ERROR);
         }
     }
 
@@ -79,11 +80,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public Result login(UserLoginDTO userLoginDTO) {
         boolean existUser = userMapper.exists(new LambdaQueryWrapper<User>().eq(User::getUsername,userLoginDTO.getUsername()));
         if(!existUser){
-            throw new BizException(BizExceptionEnume.USER_NOT_EXIST_ERROR);
+            throw new ApiException(Business.USER_NOT_EXIST_ERROR);
         }
         User user = userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getUsername,userLoginDTO.getUsername()));
         if(!Objects.equals(user.getPassword(), userLoginDTO.getPassword())){
-            throw new BizException(BizExceptionEnume.USER_PASSWORD_ERROR);
+            throw new ApiException(Business.USER_PASSWORD_ERROR);
         }
 
 
@@ -101,7 +102,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         BeanUtils.copyProperties(userUpdateDTO,user);
         int rows = userMapper.updateById(user);
         if(rows==0){
-            throw new BizException(BizExceptionEnume.USER_UPDATE_ERROR);
+            throw new ApiException(Business.USER_UPDATE_ERROR);
         }
         return Result.ok("修改成功");
     }
@@ -124,7 +125,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if(rows>0){
             return Result.ok(null);
         }
-        throw new BizException(BizExceptionEnume.USER_ADD_ERROR);
+        throw new ApiException(Business.USER_ADD_ERROR);
     }
 
     @Override

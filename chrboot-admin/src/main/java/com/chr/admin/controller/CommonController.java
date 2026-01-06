@@ -4,8 +4,9 @@ package com.chr.admin.controller;
 
 import com.chr.common.enums.dictionary.DictionaryData;
 import com.chr.admin.service.DictionaryService;
-import com.chr.common.enums.BizExceptionEnume;
-import com.chr.common.exception.BizException;
+import com.chr.common.exception.ApiException;
+import com.chr.common.exception.error.ErrorCode;
+import com.chr.common.exception.error.ErrorCode.Business;
 import com.chr.common.result.Result;
 import com.chr.common.utils.oss.AliOssUtil;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +57,7 @@ public class CommonController {
             log.info("文件上传成功，路径为：{}",path);
             return Result.ok(path);
         } catch (IOException e) {
-            throw new BizException(BizExceptionEnume.FILE_UPLOAD_ERROR);
+            throw new ApiException(Business.FILE_UPLOAD_ERROR);
         }
     }
 
