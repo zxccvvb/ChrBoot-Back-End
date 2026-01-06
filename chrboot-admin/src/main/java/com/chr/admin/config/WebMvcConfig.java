@@ -1,11 +1,11 @@
 package com.chr.admin.config;
 
 
-import com.chr.admin.interceptors.LoginProtectedInterceptor;
+import com.chr.admin.interceptors.jwtTokenAdminInterceptor;
+import com.chr.admin.interceptors.jwtTokenUserInterceptor;
 import com.chr.common.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -20,7 +20,9 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
-    private LoginProtectedInterceptor loginProtectedInterceptor;
+    private jwtTokenAdminInterceptor jwtTokenAdminInterceptor;
+    @Autowired
+    private jwtTokenUserInterceptor jwtTokenUserInterceptor;
 
     /**
      * 添加拦截器
@@ -28,7 +30,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("添加拦截器");
-        registry.addInterceptor(loginProtectedInterceptor).addPathPatterns(new String[]{"/admin/**","/user/**"}).excludePathPatterns(new String[]{"/user/user/login", "/user/user/register"});
+        registry.addInterceptor(jwtTokenAdminInterceptor)
+                .addPathPatterns(new String[]{"/admin/**"})
+                .excludePathPatterns(new String[]{"/admin/user/login"});
+        registry.addInterceptor(jwtTokenUserInterceptor)
+                .addPathPatterns(new String[]{"/user/**"})
+                .excludePathPatterns(new String[]{"/user/user/login", "/user/user/register"});
+
     }
 
     /**

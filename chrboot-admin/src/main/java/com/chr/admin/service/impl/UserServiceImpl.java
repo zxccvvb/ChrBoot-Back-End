@@ -10,11 +10,13 @@ import com.chr.admin.pojo.dto.UserPageQueryDTO;
 import com.chr.admin.pojo.dto.UserUpdateDTO;
 import com.chr.admin.pojo.vo.UserInfoVO;
 import com.chr.admin.pojo.vo.UserVO;
+import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.exception.BizException;
 import com.chr.common.enums.BizExceptionEnume;
 import com.chr.admin.pojo.User;
 import com.chr.admin.service.UserService;
 import com.chr.admin.mapper.UserMapper;
+import com.chr.common.properties.JwtProperties;
 import com.chr.common.result.PageResult;
 import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
@@ -24,9 +26,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
 * @author dell
@@ -42,7 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private JwtHelper jwtHelper;
+    private JwtProperties jwtProperties;
 
     @Override
     public Result getUserListPage(UserPageQueryDTO userPageQueryDTO) {
@@ -85,7 +85,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if(!Objects.equals(user.getPassword(), userLoginDTO.getPassword())){
             throw new BizException(BizExceptionEnume.USER_PASSWORD_ERROR);
         }
-        String token = jwtHelper.createToken(user.getId());
+
+
+        // 生成jwt令牌
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtClaimsConstant.USER_ID, user.getId());
+        String token = JwtHelper.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getUserTtl(),claims);
 
         return Result.ok(token);
     }
