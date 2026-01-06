@@ -31,6 +31,7 @@ class ChrbootAdminApplicationTests {
 
     @Test
     public void test2() {
+
         System.out.println(MessageUtils.message("Business.test1",1));
     }
 

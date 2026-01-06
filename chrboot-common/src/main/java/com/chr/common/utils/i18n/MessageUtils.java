@@ -2,6 +2,8 @@ package com.chr.common.utils.i18n;
 
 import cn.hutool.extra.spring.SpringUtil;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
  */
 public class MessageUtils {
 
+    private static final Logger log = LoggerFactory.getLogger(MessageUtils.class);
     @Setter
     private static MessageSource messageSource;
 

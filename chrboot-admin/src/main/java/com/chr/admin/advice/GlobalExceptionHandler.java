@@ -3,8 +3,10 @@ package com.chr.admin.advice;
 
 import com.chr.common.exception.ApiException;
 import com.chr.common.result.Result;
+import com.chr.common.utils.i18n.MessageUtils;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -75,8 +77,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public Result handlerBizException(ApiException e){
         log.error(e.getMessage());
-        log.error(e.getLocalizedMessage());
-        log.error(e.toString());
+        log.info(e.toString());
         return Result.build(null,e.getErrorCode().code(),e.getLocalizedMessage());
     }
 

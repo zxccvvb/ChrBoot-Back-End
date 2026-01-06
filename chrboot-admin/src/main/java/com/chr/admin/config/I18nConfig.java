@@ -16,4 +16,5 @@ public class I18nConfig implements InitializingBean {
     public void afterPropertiesSet() {
         MessageUtils.setMessageSource(messageSource);
     }
+
 }
