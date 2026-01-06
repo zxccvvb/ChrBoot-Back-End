@@ -1,7 +1,7 @@
 package com.chr.common.enums.dictionary;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.chr.common.enums.common.StatusEnum;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -36,7 +36,7 @@ public class DictionaryUtils {
     }
 
     private static List<DictionaryData> arrayToList(DictionaryEnum[] dictionaryEnums) {
-        if(ArrayUtils.isEmpty(dictionaryEnums)) {
+        if(ArrayUtil.isEmpty(dictionaryEnums)) {
             return Arrays.asList();
         }
         return Arrays.stream(dictionaryEnums).map(DictionaryData::new).collect(Collectors.toList());

@@ -23,7 +23,9 @@
         <!-- springBoot版本  -->
         <spring.boot.version>3.5.6</spring.boot.version>
         <!-- lombok版本 -->
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
+        <!-- hutool工具 -->
+        <hutool.version>5.7.22</hutool.version>
         <!-- druid启动器的依赖  -->
         <druid.version>1.2.27</druid.version>
         <!-- mybatis-plus  -->
@@ -63,6 +65,13 @@
                 <version>${lombok.version}</version>
             </dependency>
 
+
+            <!-- hutool common tools-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
 
             <!-- druid启动器的依赖  -->
             <dependency>
@@ -119,6 +128,10 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
         </dependency>
     </dependencies>
 
