@@ -1,11 +1,10 @@
-package com.chr.admin.controller;
+package com.chr.admin.controller.common;
 
 
 
 import com.chr.common.enums.dictionary.DictionaryData;
 import com.chr.admin.service.DictionaryService;
 import com.chr.common.exception.ApiException;
-import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.exception.error.ErrorCode.Business;
 import com.chr.common.result.Result;
 import com.chr.common.utils.oss.AliOssUtil;

@@ -18,7 +18,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController("userUserController")
+@RestController("UserController")
 @RequestMapping("/user/user")
 @CrossOrigin
 @Tag(name = "用户接口")
