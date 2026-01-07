@@ -1,5 +1,5 @@
 -- 员工表
-CREATE TABLE `chrbootdatabase`.`chr_employer` (
+CREATE TABLE `chrbootdatabase`.`chr_employee` (
   `id`          bigint NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '员工id',
   `nickname`    VARCHAR(32) NOT NULL UNIQUE COMMENT '昵称',
   `username`    VARCHAR(32) NOT NULL UNIQUE COMMENT '员工名称',
@@ -29,7 +29,7 @@ CREATE TABLE `chrbootdatabase`.`chr_user` (
   `update_user` bigint DEFAULT NULL COMMENT '修改人'
 )COMMENT='用户表';
 
-INSERT INTO chrbootdatabase.chr_employer
+INSERT INTO chrbootdatabase.chr_employee
 (nickname, username, password)
 VALUES ('admin', 'admin', '123456');
 

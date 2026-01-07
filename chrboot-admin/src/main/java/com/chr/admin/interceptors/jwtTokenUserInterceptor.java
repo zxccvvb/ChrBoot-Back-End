@@ -42,12 +42,12 @@ public class jwtTokenUserInterceptor implements HandlerInterceptor {
         //获取token
         String token = request.getHeader(jwtProperties.getUserTokenName());
         //token为空或者token过期则禁止
-        if (StringUtils.isEmpty(token) || JwtHelper.isExpiration(token,jwtProperties.getUserSecretKey())) {
+        if (StringUtils.isEmpty(token) || JwtHelper.isExpired(jwtProperties.getUserSecretKey(),token)) {
             throw new ApiException(Business.USER_TOKEN_ERROR);
         }
-        Claims employe = JwtHelper.parseJWT(token,jwtProperties.getUserSecretKey());
-        log.info("当前用户id为：{}",employe.get(JwtClaimsConstant.USER_ID));
-        BaseContext.setCurrentId((Long) employe.get(JwtClaimsConstant.USER_ID));
+        Claims employe = JwtHelper.parseJWT(jwtProperties.getUserSecretKey(),token);
+        log.info("当前用户id为：{}",employe.get(JwtClaimsConstant.USER_ID));dd
+        BaseContext.setCurrentId(Long.valueOf(String.valueOf(employe.get(JwtClaimsConstant.USER_ID))));
         return true;
     }
 }

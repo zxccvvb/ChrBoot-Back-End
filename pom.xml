@@ -31,9 +31,7 @@
         <!-- mybatis-plus  -->
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <!--jwt相关依赖-->
-        <jwt.version>0.9.1</jwt.version>
-        <!--Java 11后javax.xml.bind被移除需要自行添加  jwt等依赖需要-->
-        <jaxb.api.version>2.3.0</jaxb.api.version>
+        <jwt.version>0.11.5</jwt.version>
         <!-- Knife4j 4.x (对应 SpringDoc 2.x) -->
         <knife4j.version>4.4.0</knife4j.version>
         <!--阿里云OSS-->
@@ -88,16 +86,23 @@
             </dependency>
 
             <!--jwt相关依赖-->
+            <!-- Maven依赖 -->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
+                <artifactId>jjwt-api</artifactId>
                 <version>${jwt.version}</version>
             </dependency>
-            <!--Java 11后javax.xml.bind被移除需要自行添加  jwt等依赖需要-->
             <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-                <version>${jaxb.api.version}</version>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jwt.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jwt.version}</version>
+                <scope>runtime</scope>
             </dependency>
 
             <!-- Knife4j 4.x (对应 SpringDoc 2.x) -->

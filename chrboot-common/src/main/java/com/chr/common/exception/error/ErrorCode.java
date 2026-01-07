@@ -79,7 +79,9 @@ public enum ErrorCode implements ErrorCodeInterface {
         USER_NOT_EXIST_ERROR(10007,"用户名不存在","Business.test1"),
         USER_PASSWORD_ERROR(10008,"用户密码错误","Business.test1"),
         USER_DELETE_ERROR(10009,"用户删除失败","Business.test1"),
-        USER_ADD_ERROR(10010,"用户添加失败","Business.test1");
+        USER_ADD_ERROR(10010,"用户添加失败","Business.test1"),
+        EMPLOYEE_NOT_EXIST_ERROR(10011,"员工用户名不存在","Business.test1"),
+        EMPLOYEE_PASSWORD_ERROR(10012,"员工密码错误","Business.test1");
 
 
         private final int code;

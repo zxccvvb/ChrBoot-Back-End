@@ -109,7 +109,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
     @Override
-    public Result getUserInfo() {
+    public Result info() {
         Long id = BaseContext.getCurrentId();
         User user = userMapper.selectById(id);
         UserInfoVO userInfoVo = new UserInfoVO();

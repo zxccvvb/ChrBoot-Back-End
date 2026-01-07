@@ -45,14 +45,14 @@ chrboot:
   # jwt配置
   jwt:
     # 设置jwt签名加密时使用的秘钥
-    admin-secret-key: chrbootadmin
-    # 设置jwt过期时间 单位分钟
-    admin-ttl: 60
+    admin-secret-key: 9c9e0c0eb914a6f82aaa44a3849f735c
+    # 设置jwt过期时间 单位毫秒
+    admin-ttl: 3600000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
     # 小程序的jwt配置
-    user-secret-key: chrbootuser
-    user-ttl: 60
+    user-secret-key: aedb5514043dbb386aba07b68c18daab
+    user-ttl: 3600000
     user-token-name: authentication
   # alioss配置
   alioss:

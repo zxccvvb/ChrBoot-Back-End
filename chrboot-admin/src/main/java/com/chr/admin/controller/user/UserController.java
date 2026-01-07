@@ -41,7 +41,7 @@ public class UserController {
     @Operation(summary = "用户信息接口")
     public Result getUserInfo(){
         log.info("获取用户信息");
-        Result result = userService.getUserInfo();
+        Result result = userService.info();
         return result;
     }
 

@@ -77,7 +77,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiException.class)
     public Result handlerBizException(ApiException e){
         log.error(e.getMessage());
-        log.info(e.toString());
         return Result.build(null,e.getErrorCode().code(),e.getMessage());
     }
 

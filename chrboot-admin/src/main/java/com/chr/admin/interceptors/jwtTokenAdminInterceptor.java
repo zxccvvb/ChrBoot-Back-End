@@ -44,12 +44,12 @@ public class jwtTokenAdminInterceptor implements HandlerInterceptor {
         //获取token
         String token = request.getHeader(jwtProperties.getAdminTokenName());
         //token为空或者token过期则禁止
-        if (StringUtils.isEmpty(token) || JwtHelper.isExpiration(token,jwtProperties.getAdminSecretKey())) {
+        if (StringUtils.isEmpty(token) || JwtHelper.isExpired(jwtProperties.getAdminSecretKey(),token)) {
             throw new ApiException(Business.USER_TOKEN_ERROR);
         }
-        Claims employe = JwtHelper.parseJWT(token,jwtProperties.getAdminSecretKey());
+        Claims employe = JwtHelper.parseJWT(jwtProperties.getAdminSecretKey(),token);
         log.info("当前员工id为：{}",employe.get(JwtClaimsConstant.EMP_ID));
-        BaseContext.setCurrentId((Long) employe.get(JwtClaimsConstant.EMP_ID));
+        BaseContext.setCurrentId(Long.valueOf(String.valueOf(employe.get(JwtClaimsConstant.EMP_ID))));
         return true;
     }
 }

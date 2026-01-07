@@ -35,7 +35,7 @@ public interface UserService extends IService<User> {
      * 获取用户信息
      * @return
      */
-    Result getUserInfo();
+    Result info();
 
 
     //    *************管理端*************
