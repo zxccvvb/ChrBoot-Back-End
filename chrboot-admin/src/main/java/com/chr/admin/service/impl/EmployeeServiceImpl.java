@@ -10,6 +10,7 @@ import com.chr.admin.pojo.vo.UserInfoVO;
 import com.chr.admin.service.EmployeeService;
 import com.chr.admin.mapper.EmployeeMapper;
 import com.chr.common.constant.JwtClaimsConstant;
+import com.chr.common.enums.dictionary.DictionaryUtils;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.exception.error.ErrorCode.Business;
@@ -39,6 +40,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     private EmployeeMapper employeeMapper;
     @Autowired
     private JwtProperties jwtProperties;
+    @Autowired
+    DictionaryUtils dictionaryUtils;
 
 
     /**
@@ -74,6 +77,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         Employee employee = employeeMapper.selectById(id);
         EmployeeInfoVO employeeInfoVO = new EmployeeInfoVO();
         BeanUtils.copyProperties(employee, employeeInfoVO);
+        employeeInfoVO.setDictionary(dictionaryUtils.dictionaryCache());
         return Result.ok(employeeInfoVO);
     }
 }

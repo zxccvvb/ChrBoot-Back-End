@@ -46,7 +46,7 @@ public class jwtTokenUserInterceptor implements HandlerInterceptor {
             throw new ApiException(Business.USER_TOKEN_ERROR);
         }
         Claims employe = JwtHelper.parseJWT(jwtProperties.getUserSecretKey(),token);
-        log.info("当前用户id为：{}",employe.get(JwtClaimsConstant.USER_ID));dd
+        log.info("当前用户id为：{}",employe.get(JwtClaimsConstant.USER_ID));
         BaseContext.setCurrentId(Long.valueOf(String.valueOf(employe.get(JwtClaimsConstant.USER_ID))));
         return true;
     }
