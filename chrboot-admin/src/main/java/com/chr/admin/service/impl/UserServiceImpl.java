@@ -66,11 +66,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
 //    @AutoFill(AutoFillType.INSERT)
     public Result register(UserRegisterDTO userRegisterDTO) {
+        if(!userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())){
+            throw new ApiException(Business.USER_REGISTER_CONFIRMPASSWORD_ERROR);
+        }
+        if(userMapper.exists(new LambdaQueryWrapper<User>().eq(User::getUsername,userRegisterDTO.getUsername()))){
+            throw new ApiException(Business.USER_REGISTER_USERNAME_ERROR);
+        }
+        if(userMapper.exists(new LambdaQueryWrapper<User>().eq(User::getNickname,userRegisterDTO.getNickname()))){
+            throw new ApiException(Business.USER_REGISTER_NICKNAME_ERROR);
+        }
         User user = new User();
         BeanUtils.copyProperties(userRegisterDTO,user);
         int rows = userMapper.insert(user);
         if(rows>0){
-            return Result.ok("注册成功");
+            return Result.ok("");
         }else{
             throw new ApiException(Business.USER_REGISTER_ERROR);
         }
@@ -104,7 +113,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if(rows==0){
             throw new ApiException(Business.USER_UPDATE_ERROR);
         }
-        return Result.ok("修改成功");
+        return Result.ok("");
     }
 
 

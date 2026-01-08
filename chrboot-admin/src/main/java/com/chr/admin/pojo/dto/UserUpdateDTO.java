@@ -18,7 +18,7 @@ public class UserUpdateDTO implements Serializable {
     @NotBlank
     private String nickname;
 
-    @NotNull
+    @NotBlank
     private String username;
 
     @NotBlank

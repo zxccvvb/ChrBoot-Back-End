@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class EmployeeLoginDTO {
 
-    @NotNull
+    @NotBlank
     @Size(min = 5,max = 10, message = "用户名必须在5-10个字符之间")
     private String username;
 
