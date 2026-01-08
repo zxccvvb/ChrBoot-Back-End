@@ -1,5 +1,8 @@
 package com.chr.common.result;
 
+import com.chr.common.exception.error.ErrorCode;
+import com.chr.common.exception.error.ErrorCodeInterface;
+
 import java.io.Serializable;
 
 /**
@@ -26,10 +29,10 @@ public class Result<T> implements Serializable {
         result.setMessage(message);
         return result;
     }
-    public static <T> Result<T> build(T body, ResultCodeEnum resultCodeEnum) {
+    public static <T> Result<T> build(T body, ErrorCodeInterface errorCode) {
         Result<T> result = build(body);
-        result.setCode(resultCodeEnum.getCode());
-        result.setMessage(resultCodeEnum.getMessage());
+        result.setCode(errorCode.code());
+        result.setMessage(errorCode.message());
         return result;
     }
     /**
@@ -40,7 +43,7 @@ public class Result<T> implements Serializable {
      */
     public static<T> Result<T> ok(T data){
         Result<T> result = build(data);
-        return build(data, ResultCodeEnum.SUCCESS);
+        return build(data, ErrorCode.SUCCESS);
     }
     public Result<T> message(String msg){
         this.setMessage(msg);
