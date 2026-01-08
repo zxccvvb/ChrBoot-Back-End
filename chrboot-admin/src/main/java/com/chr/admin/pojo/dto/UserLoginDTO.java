@@ -17,6 +17,5 @@ public class UserLoginDTO implements Serializable {
     private String username;
 
     @NotBlank
-    @Password //自定义属性校验注解
     private String password;
 }
