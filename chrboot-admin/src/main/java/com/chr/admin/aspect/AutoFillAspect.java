@@ -14,6 +14,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * 自定义切面，实现公共字段自动填充
@@ -79,7 +81,15 @@ public class AutoFillAspect {
             return;
         }
         Object entity = args[0];//拿到需要填充的对象
-        concatPublicField(value, entity);
+        //这里判断如果是数组则循环添加属性
+        if(entity.getClass().isArray() || entity instanceof Collection){
+            Collection<?> list = entity.getClass().isArray() ? Arrays.asList((Object[]) entity) : (Collection<?>) entity;
+            for(Object o: list){
+                concatPublicField(value, o);
+            }
+        }else{
+            concatPublicField(value, entity);
+        }
     }
 
     @Before("insertUpdatePointCut()")
@@ -95,7 +105,15 @@ public class AutoFillAspect {
             return;
         }
         Object entity = args[0];//拿到需要填充的对象
-        concatPublicField(value, entity);
+        //这里判断如果是数组则循环添加属性
+        if(entity.getClass().isArray() || entity instanceof Collection){
+            Collection<?> list = entity.getClass().isArray() ? Arrays.asList((Object[]) entity) : (Collection<?>) entity;
+            for(Object o: list){
+                concatPublicField(value, o);
+            }
+        }else{
+            concatPublicField(value, entity);
+        }
     }
 
 }
