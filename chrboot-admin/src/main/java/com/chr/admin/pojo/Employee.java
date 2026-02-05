@@ -1,6 +1,7 @@
 package com.chr.admin.pojo;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -24,9 +25,9 @@ public class Employee implements Serializable {
 
     private Integer isDeleted;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     private Long createUser;
 

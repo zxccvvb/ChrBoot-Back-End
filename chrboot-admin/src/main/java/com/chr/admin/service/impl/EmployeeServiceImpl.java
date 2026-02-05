@@ -3,10 +3,10 @@ package com.chr.admin.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.admin.pojo.Employee;
-import com.chr.admin.pojo.User;
 import com.chr.admin.pojo.dto.EmployeeLoginDTO;
 import com.chr.admin.pojo.vo.EmployeeInfoVO;
 import com.chr.admin.pojo.vo.UserInfoVO;
+import com.chr.admin.security.DBUserDetailsManager;
 import com.chr.admin.service.EmployeeService;
 import com.chr.admin.mapper.EmployeeMapper;
 import com.chr.common.constant.JwtClaimsConstant;
@@ -21,6 +21,7 @@ import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -41,7 +42,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     @Autowired
     private JwtProperties jwtProperties;
     @Autowired
-    DictionaryUtils dictionaryUtils;
+    private DictionaryUtils dictionaryUtils;
+    @Autowired
+    private DBUserDetailsManager DBUserDetailsManager;
 
 
     /**
@@ -79,6 +82,20 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         BeanUtils.copyProperties(employee, employeeInfoVO);
         employeeInfoVO.setDictionary(dictionaryUtils.dictionaryCache());
         return Result.ok(employeeInfoVO);
+    }
+
+    /**
+     * 员工注册接口
+     * @param employeeLoginDTO
+     * @return
+     */
+    @Override
+    public Result register(EmployeeLoginDTO employeeLoginDTO) {
+        DBUserDetailsManager.createUser(User.withDefaultPasswordEncoder().
+                username(employeeLoginDTO.getUsername()).
+                password(employeeLoginDTO.getPassword()).
+                build());
+        return Result.ok("");
     }
 }
 

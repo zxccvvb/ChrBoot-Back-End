@@ -29,6 +29,15 @@ public class EmployeeController {
         return result;
     }
 
+
+    @PostMapping("/register")
+    @Operation(summary = "员工注册接口")
+    public Result register(@RequestBody EmployeeLoginDTO employeeLoginDTO){
+        log.info("员工注册：{}",employeeLoginDTO);
+        Result result = employeeService.register(employeeLoginDTO);
+        return result;
+    }
+
     @GetMapping("/info")
     @Operation(summary = "员工信息接口")
     public Result getUserInfo(){

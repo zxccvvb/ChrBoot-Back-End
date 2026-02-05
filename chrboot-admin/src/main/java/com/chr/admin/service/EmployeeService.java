@@ -25,4 +25,11 @@ public interface EmployeeService extends IService<Employee> {
      * @return
      */
     Result info();
+
+    /**
+     * 员工注册接口
+     * @param employeeLoginDTO
+     * @return
+     */
+    Result register(EmployeeLoginDTO employeeLoginDTO);
 }
