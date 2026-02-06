@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -72,6 +73,13 @@ public class GlobalExceptionHandler {
         return Result.build(null,500,message);
     }
 
+    //springSecurity判断密码时的错误
+    @ExceptionHandler(BadCredentialsException.class)
+    public Result handlerBadCredentialsException(BadCredentialsException e){
+        log.error(e.getMessage());
+        String message = "用户名或者密码错误";
+        return Result.build(null,500,message);
+    }
 
     //业务异常处理
     @ExceptionHandler(ApiException.class)

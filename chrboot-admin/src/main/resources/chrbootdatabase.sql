@@ -31,10 +31,10 @@ CREATE TABLE `chrbootdatabase`.`chr_user` (
 
 INSERT INTO chrbootdatabase.chr_employee
 (nickname, username, PASSWORD)
-VALUES ('admin', 'admin', '{bcrypt}$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
+VALUES ('admin', 'admin', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
 
 INSERT INTO chrbootdatabase.chr_user
 (nickname, username, PASSWORD)
-VALUES ('admin', 'admin', '{bcrypt}$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
+VALUES ('admin', 'admin', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
 
 

@@ -18,8 +18,13 @@ public class RedisConfig {
         RedisTemplate<Object,Object> redisTemplate = new RedisTemplate<>();
         //设置redis的连接工厂对象
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-        //设置redis key的序列化器
+        //使用StringRedisSerializer来序列化和反序列化redis的key值
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+
+        //使用StringRedisSerializer来序列化和反序列化redis的Hash key值
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
         return redisTemplate;
     }
 }

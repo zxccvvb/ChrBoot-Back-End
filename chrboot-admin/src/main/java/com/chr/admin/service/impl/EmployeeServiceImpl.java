@@ -7,6 +7,7 @@ import com.chr.admin.pojo.dto.EmployeeLoginDTO;
 import com.chr.admin.pojo.vo.EmployeeInfoVO;
 import com.chr.admin.pojo.vo.UserInfoVO;
 import com.chr.admin.security.DBUserDetailsManager;
+import com.chr.admin.security.LoginUser;
 import com.chr.admin.service.EmployeeService;
 import com.chr.admin.mapper.EmployeeMapper;
 import com.chr.common.constant.JwtClaimsConstant;
@@ -21,6 +22,9 @@ import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +42,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     implements EmployeeService{
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
     private EmployeeMapper employeeMapper;
     @Autowired
     private JwtProperties jwtProperties;
@@ -54,17 +60,19 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
      */
     @Override
     public Result login(EmployeeLoginDTO employeeLoginDTO) {
-        boolean existEmployee = employeeMapper.exists(new LambdaQueryWrapper<Employee>().eq(Employee::getUsername,employeeLoginDTO.getUsername()));
-        if(!existEmployee){
-            throw new ApiException(Business.EMPLOYEE_NOT_EXIST_ERROR);
-        }
-        Employee employee = employeeMapper.selectOne(new LambdaQueryWrapper<Employee>().eq(Employee::getUsername,employeeLoginDTO.getUsername()));
-        if(!Objects.equals(employee.getPassword(),employeeLoginDTO.getPassword())){
-            throw new ApiException(Business.EMPLOYEE_PASSWORD_ERROR);
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(employeeLoginDTO.getUsername(),employeeLoginDTO.getPassword());
+        Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+        if(Objects.isNull(authenticate)){
+            throw new ApiException(Business.ADMIN_LOGIN_PASSOWRD_ERROR);
         }
 
+        LoginUser principal = (LoginUser)authenticate.getPrincipal();
+        Long id = principal.getEmployee().getId();
+
         Map<String,Object> claims = new HashMap<>();
-        claims.put(JwtClaimsConstant.EMP_ID,employee.getId());
+        claims.put(JwtClaimsConstant.EMP_ID,id);
         String token =  JwtHelper.createJWT(jwtProperties.getAdminSecretKey(),jwtProperties.getAdminTtl(),claims);
 
         return Result.ok(token);

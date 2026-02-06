@@ -30,12 +30,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("添加拦截器");
-        registry.addInterceptor(jwtTokenAdminInterceptor)
-                .addPathPatterns(new String[]{"/admin/**"})
-                .excludePathPatterns(new String[]{"/admin/employee/login","/admin/employee/register"});
-        registry.addInterceptor(jwtTokenUserInterceptor)
-                .addPathPatterns(new String[]{"/user/**"})
-                .excludePathPatterns(new String[]{"/user/user/login", "/user/user/register"});
+//        registry.addInterceptor(jwtTokenAdminInterceptor)
+//                .addPathPatterns(new String[]{"/admin/**"})
+//                .excludePathPatterns(new String[]{"/admin/employee/login","/admin/employee/register"});
+//        registry.addInterceptor(jwtTokenUserInterceptor)
+//                .addPathPatterns(new String[]{"/user/**"})
+//                .excludePathPatterns(new String[]{"/user/user/login", "/user/user/register"});
 
     }
 

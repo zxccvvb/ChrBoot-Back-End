@@ -4,6 +4,8 @@ package com.chr.admin.security;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chr.admin.mapper.EmployeeMapper;
 import com.chr.admin.pojo.Employee;
+import com.chr.common.exception.ApiException;
+import com.chr.common.exception.error.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -60,22 +62,13 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username){
         Employee employee = employeeMapper.selectOne(new LambdaQueryWrapper<Employee>()
                 .eq(Employee::getUsername,username));
         if(employee==null){
-            throw new UsernameNotFoundException(username);
+            throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_NOTFOUND_ERROR);
         }else{
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
-            return new User(
-                    employee.getUsername(),
-                    employee.getPassword(),
-                    employee.getStatus()==1,
-                    true, //账号是否未过期
-                    true, //用户凭证是否未过期
-                    true, //用户是否未被锁定
-                    authorities //权限列表
-                    );
+            return new LoginUser(employee);
         }
     }
 }

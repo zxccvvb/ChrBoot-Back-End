@@ -64,7 +64,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-//    @AutoFill(AutoFillType.INSERT)
     public Result register(UserRegisterDTO userRegisterDTO) {
         if(!userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())){
             throw new ApiException(Business.USER_REGISTER_CONFIRMPASSWORD_ERROR);
