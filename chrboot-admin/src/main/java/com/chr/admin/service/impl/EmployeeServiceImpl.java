@@ -22,6 +22,7 @@ import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,6 +52,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
     private DictionaryUtils dictionaryUtils;
     @Autowired
     private DBUserDetailsManager DBUserDetailsManager;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     /**
@@ -69,11 +72,13 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         }
 
         LoginUser principal = (LoginUser)authenticate.getPrincipal();
-        Long id = principal.getEmployee().getId();
+        Employee employee = principal.getEmployee();
+        Long id = employee.getId();
 
         Map<String,Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.EMP_ID,id);
         String token =  JwtHelper.createJWT(jwtProperties.getAdminSecretKey(),jwtProperties.getAdminTtl(),claims);
+        redisTemplate.opsForValue().set(JwtClaimsConstant.ADMIN_LOGIN + id,principal);
 
         return Result.ok(token);
     }
