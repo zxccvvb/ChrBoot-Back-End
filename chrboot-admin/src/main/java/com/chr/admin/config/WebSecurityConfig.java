@@ -1,6 +1,7 @@
 package com.chr.admin.config;
 
 import com.chr.admin.security.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 //springBoot 通过注解的方法默认开启可以省略
@@ -24,6 +27,12 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 //开启基于方法的授权
 @EnableMethodSecurity
 public class WebSecurityConfig{
+
+
+    @Autowired
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+    @Autowired
+    private ExceptionHandlingFilter exceptionHandlingFilter;
 
     /**
      * 密码加密器 - 核心 Bean
@@ -63,6 +72,9 @@ public class WebSecurityConfig{
                         //已认证的请求会被自动授权
                         .authenticated()
                 )
+                //添加过滤器
+                .addFilterBefore(exceptionHandlingFilter, ChannelProcessingFilter.class)
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 // 表单登录
                 .formLogin(form -> form
 //                        .loginPage("/login")

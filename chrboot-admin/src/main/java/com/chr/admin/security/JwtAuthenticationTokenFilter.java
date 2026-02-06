@@ -1,6 +1,6 @@
 package com.chr.admin.security;
 
-import com.aliyun.core.utils.StringUtils;
+import com.alibaba.druid.util.StringUtils;
 import com.chr.admin.pojo.Employee;
 import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.exception.ApiException;
@@ -22,6 +22,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * 前后端分离的情况下实现jwt过滤器+redis来验证用户登录
+ */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -35,14 +38,25 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //获取token
         String token = request.getHeader(jwtProperties.getAdminTokenName());
-        if(StringUtils.isBlank(token)){
+        if(StringUtils.isEmpty(token)){
             //如果没有token则放行交给后续filter
             filterChain.doFilter(request,response);
             return;
         }
+        //检查token是否过期
+        if(JwtHelper.isExpired(jwtProperties.getAdminSecretKey(),token)){
+            throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_JWT_ERROR);
+        }
         //解析token
-        Claims claims = JwtHelper.parseJWT(token, jwtProperties.getAdminSecretKey());
-        String id = (String) claims.get(JwtClaimsConstant.EMP_ID);
+        Claims claims = JwtHelper.parseJWT(jwtProperties.getAdminSecretKey(),token);
+        Object id =  claims.get(JwtClaimsConstant.EMP_ID);
+
+        //检查当前token是否是redis中保存的最新token
+        String lastAdviceToken = (String)redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_ADVICE + id);
+        if(!StringUtils.equals(token,lastAdviceToken) && !StringUtils.isEmpty(lastAdviceToken)){
+            throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_SESSION_ERROR);
+        }
+
         //从redis中获取用户信息
         LoginUser loginUser = (LoginUser) redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_LOGIN + id);
         if(Objects.isNull(loginUser)){

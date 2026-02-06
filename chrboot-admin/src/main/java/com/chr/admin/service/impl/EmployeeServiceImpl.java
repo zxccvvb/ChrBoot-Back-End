@@ -78,7 +78,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         Map<String,Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.EMP_ID,id);
         String token =  JwtHelper.createJWT(jwtProperties.getAdminSecretKey(),jwtProperties.getAdminTtl(),claims);
+        //登陆时缓存中保存当前用户信息
         redisTemplate.opsForValue().set(JwtClaimsConstant.ADMIN_LOGIN + id,principal);
+        //登陆时缓存中保存当前用户设备token信息
+        redisTemplate.opsForValue().set(JwtClaimsConstant.ADMIN_ADVICE+id,token);
 
         return Result.ok(token);
     }

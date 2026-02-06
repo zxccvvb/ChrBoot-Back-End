@@ -53,8 +53,7 @@ chrboot:
     # 小程序的jwt配置
     user-secret-key: aedb5514043dbb386aba07b68c18daab
     user-ttl: 3600000
-    user-login-key: user:login
-    user-device-key: user:device
+    user-token-name: authentication
   # alioss配置
   alioss:
     access-key-id:
