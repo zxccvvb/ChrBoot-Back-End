@@ -48,7 +48,7 @@ public class EmployeeController {
         return result;
     }
 
-    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('admin11')")
     @GetMapping("/info")
     @Operation(summary = "员工信息接口")
     public Result getUserInfo(){

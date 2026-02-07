@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -73,6 +74,14 @@ public class GlobalExceptionHandler {
         return Result.build(null,500,message);
     }
 
+    //springSecurity权限判断错误
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public Result handlerAuthorizationDeniedException(AuthorizationDeniedException e){
+        log.error(e.getMessage());
+        String message = "权限不足";
+        return Result.build(null,403,message);
+    }
+
     //springSecurity判断密码时的错误
     @ExceptionHandler(BadCredentialsException.class)
     public Result handlerBadCredentialsException(BadCredentialsException e){
@@ -93,7 +102,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e){
         //异常打印错误堆栈
-        e.printStackTrace();
+//        e.printStackTrace();
         log.error(e.getMessage());
         return Result.build(null,500,e.getMessage());
     }

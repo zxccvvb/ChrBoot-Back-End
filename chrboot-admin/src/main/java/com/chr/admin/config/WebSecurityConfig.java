@@ -16,10 +16,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 
 @Configuration
 //springBoot 通过注解的方法默认开启可以省略
@@ -33,6 +35,10 @@ public class WebSecurityConfig{
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Autowired
     private ExceptionHandlingFilter exceptionHandlingFilter;
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     /**
      * 密码加密器 - 核心 Bean
@@ -73,8 +79,15 @@ public class WebSecurityConfig{
                         .authenticated()
                 )
                 //添加过滤器
-                .addFilterBefore(exceptionHandlingFilter, ChannelProcessingFilter.class)
+                .addFilterBefore(exceptionHandlingFilter, DisableEncodeUrlFilter.class)
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                //配置异常处理器
+                .exceptionHandling(excptionHandler->{
+                    //认证失败异常
+                    excptionHandler.authenticationEntryPoint(authenticationEntryPoint);
+                    //权限不足异常
+                    excptionHandler.accessDeniedHandler(accessDeniedHandler);
+                })
                 // 表单登录
                 .formLogin(form -> form
 //                        .loginPage("/login")
@@ -88,10 +101,6 @@ public class WebSecurityConfig{
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")
                 )
-                // 未认证的请求
-                .exceptionHandling(except->{
-
-                })
                 // 会话并发设置
                 .sessionManagement(session->{
                     //不使用sprintSecurity的session
