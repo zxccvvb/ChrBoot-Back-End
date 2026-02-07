@@ -65,8 +65,8 @@ public class WebSecurityConfig{
                         .requestMatchers(
                                 "/admin/employee/login",
                                 "/admin/employee/register",
-                                "user/user/login",
-                                "user/user/register").permitAll()
+                                "/user/user/login",
+                                "/user/user/register").permitAll()
                         //除了上方以外的接口全部授权保护
                         .anyRequest()
                         //已认证的请求会被自动授权
@@ -82,7 +82,6 @@ public class WebSecurityConfig{
                         .defaultSuccessUrl("/doc.html")
                         //登录失败之后访问的地址
                         .failureUrl("/login?error")
-                        .successHandler(new UserAuthenticationSuccessHandler())
                         .permitAll()
                 )
                 // 注销
@@ -91,13 +90,11 @@ public class WebSecurityConfig{
                 )
                 // 未认证的请求
                 .exceptionHandling(except->{
-                    //未登录
-//                    except.authenticationEntryPoint(new UserAuthenticationEntryPoint());
-                    //没有对应的权限
-                    except.accessDeniedHandler(new UserAccessDeniedHandler());
+
                 })
                 // 会话并发设置
                 .sessionManagement(session->{
+                    //不使用sprintSecurity的session
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 // 禁用 CSRF（开发测试时，生产环境建议开启）

@@ -1,34 +1,49 @@
 package com.chr.admin.security;
 
-import com.chr.admin.pojo.Employee;
-import lombok.AllArgsConstructor;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class LoginUser implements UserDetails {
-    private Employee employee;
+public class AuthDetails<T extends Auth> implements UserDetails {
+    private T auth;
+    private ArrayList<String> permissions;
+
+    public AuthDetails(T auth, ArrayList<String> permissions) {
+        this.auth = auth;
+        this.permissions = permissions;
+    }
+
+    @JSONField(serialize = false)
+    private List<GrantedAuthority> authorities;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        if(authorities == null){
+            authorities = permissions.stream().map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+        }
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return employee.getPassword();
+        return auth.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return employee.getUsername();
+        return auth.getUsername();
     }
 
     @Override

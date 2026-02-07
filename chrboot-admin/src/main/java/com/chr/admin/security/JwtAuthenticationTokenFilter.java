@@ -1,7 +1,6 @@
 package com.chr.admin.security;
 
 import com.alibaba.druid.util.StringUtils;
-import com.chr.admin.pojo.Employee;
 import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
@@ -58,14 +57,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
 
         //从redis中获取用户信息
-        LoginUser loginUser = (LoginUser) redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_LOGIN + id);
-        if(Objects.isNull(loginUser)){
+        AuthDetails authDetails = (AuthDetails) redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_LOGIN + id);
+        if(Objects.isNull(authDetails)){
             throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_REDIS_ERROR);
         }
         //存入SecurityContextHolder
         //TODO 获取权限信息
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(loginUser,null,null);
+                new UsernamePasswordAuthenticationToken(authDetails,null, authDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         //放行
         filterChain.doFilter(request,response);

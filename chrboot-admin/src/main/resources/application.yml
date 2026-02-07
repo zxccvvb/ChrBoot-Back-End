@@ -49,7 +49,7 @@ mybatis-plus:
     db-config:
       logic-delete-field: isDeleted  #全局逻辑删除
       id-type: auto #设置主键策略为自增长
-      table-prefix: chr_ # 设置表的前缀
+#      table-prefix: chr_ # 设置表的前缀
   configuration:
     auto-mapping-behavior: full #开启自动映射
 

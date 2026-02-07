@@ -1,5 +1,5 @@
 -- 员工表
-CREATE TABLE `chrbootdatabase`.`chr_employee` (
+CREATE TABLE `chrbootdatabase`.`sys_employee` (
                                                   `id`          BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '员工id',
                                                   `nickname`    VARCHAR(32) NOT NULL UNIQUE COMMENT '昵称',
                                                   `username`    VARCHAR(32) NOT NULL UNIQUE COMMENT '员工名称',
@@ -15,7 +15,7 @@ CREATE TABLE `chrbootdatabase`.`chr_employee` (
 
 
 -- 用户表
-CREATE TABLE `chrbootdatabase`.`chr_user` (
+CREATE TABLE `chrbootdatabase`.`sys_user` (
                                               `id`          BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '用户id',
                                               `nickname`    VARCHAR(32) NOT NULL UNIQUE COMMENT '昵称',
                                               `username`    VARCHAR(32) NOT NULL UNIQUE COMMENT '用户名',
@@ -29,11 +29,11 @@ CREATE TABLE `chrbootdatabase`.`chr_user` (
                                               `update_user` BIGINT DEFAULT NULL COMMENT '修改人'
 )COMMENT='用户表';
 
-INSERT INTO chrbootdatabase.chr_employee
+INSERT INTO chrbootdatabase.sys_employee
 (nickname, username, PASSWORD)
 VALUES ('admin', 'admin', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
 
-INSERT INTO chrbootdatabase.chr_user
+INSERT INTO chrbootdatabase.sys_user
 (nickname, username, PASSWORD)
 VALUES ('admin', 'admin', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
 

@@ -1,24 +1,21 @@
 package com.chr.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.admin.pojo.Employee;
 import com.chr.admin.pojo.dto.EmployeeLoginDTO;
+import com.chr.admin.pojo.dto.EmployeeRegisterDTO;
 import com.chr.admin.pojo.vo.EmployeeInfoVO;
-import com.chr.admin.pojo.vo.UserInfoVO;
 import com.chr.admin.security.DBUserDetailsManager;
-import com.chr.admin.security.LoginUser;
+import com.chr.admin.security.AuthDetails;
 import com.chr.admin.service.EmployeeService;
 import com.chr.admin.mapper.EmployeeMapper;
 import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.enums.dictionary.DictionaryUtils;
 import com.chr.common.exception.ApiException;
-import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.exception.error.ErrorCode.Business;
 
 import com.chr.common.properties.JwtProperties;
 import com.chr.common.result.Result;
-import com.chr.common.utils.context.BaseContext;
 import com.chr.common.utils.jwt.JwtHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -71,8 +68,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
             throw new ApiException(Business.ADMIN_LOGIN_PASSOWRD_ERROR);
         }
 
-        LoginUser principal = (LoginUser)authenticate.getPrincipal();
-        Employee employee = principal.getEmployee();
+        AuthDetails<Employee> principal = (AuthDetails<Employee>) authenticate.getPrincipal();
+        Employee employee = principal.getAuth();
         Long id = employee.getId();
 
         Map<String,Object> claims = new HashMap<>();
@@ -86,14 +83,24 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
         return Result.ok(token);
     }
 
+    @Override
+    public Result logout() {
+        AuthDetails<Employee> principal = (AuthDetails<Employee>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Employee employee = principal.getAuth();
+        Long id = employee.getId();
+        redisTemplate.delete(JwtClaimsConstant.ADMIN_LOGIN+id);
+        redisTemplate.delete(JwtClaimsConstant.ADMIN_ADVICE+id);
+        return Result.ok("");
+    }
+
     /**
      * 员工信息接口
      * @return
      */
     @Override
     public Result info() {
-        Long id = BaseContext.getCurrentId();
-        Employee employee = employeeMapper.selectById(id);
+        AuthDetails<Employee> principal = (AuthDetails<Employee>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Employee employee = principal.getAuth();
         EmployeeInfoVO employeeInfoVO = new EmployeeInfoVO();
         BeanUtils.copyProperties(employee, employeeInfoVO);
         employeeInfoVO.setDictionary(dictionaryUtils.dictionaryCache());
@@ -102,15 +109,15 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee>
 
     /**
      * 员工注册接口
-     * @param employeeLoginDTO
+     * @param employeeRegisterDTO
      * @return
      */
     @Override
-    public Result register(EmployeeLoginDTO employeeLoginDTO) {
-        DBUserDetailsManager.createUser(User.withDefaultPasswordEncoder().
-                username(employeeLoginDTO.getUsername()).
-                password(employeeLoginDTO.getPassword()).
-                build());
+    public Result register(EmployeeRegisterDTO employeeRegisterDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeRegisterDTO,employee);
+        AuthDetails<Employee> authDetails = new AuthDetails<>(employee, null);
+        DBUserDetailsManager.createUser(authDetails);
         return Result.ok("");
     }
 }

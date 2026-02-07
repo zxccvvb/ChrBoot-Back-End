@@ -6,17 +6,16 @@ import com.chr.admin.mapper.EmployeeMapper;
 import com.chr.admin.pojo.Employee;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 
 @Component
 public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPasswordService {
@@ -25,6 +24,8 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
     @Autowired
     private EmployeeMapper employeeMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails updatePassword(UserDetails user, String newPassword) {
@@ -34,11 +35,10 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
     @Override
     public void createUser(UserDetails user) {
         Employee employee = new Employee();
-        employee.setUsername(user.getUsername());
-        employee.setPassword(user.getPassword());
-        employee.setNickname("test");
+        AuthDetails<Employee> authDetails = (AuthDetails<Employee>) user;
+        BeanUtils.copyProperties(authDetails.getAuth(),employee);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         employeeMapper.insert(employee);
-
     }
 
     @Override
@@ -68,7 +68,8 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
         if(employee==null){
             throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_NOTFOUND_ERROR);
         }else{
-            return new LoginUser(employee);
+            ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("admin","test"));
+            return new AuthDetails(employee,arrayList);
         }
     }
 }

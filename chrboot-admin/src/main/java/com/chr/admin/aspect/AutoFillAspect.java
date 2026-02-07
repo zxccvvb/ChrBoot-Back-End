@@ -4,7 +4,6 @@ package com.chr.admin.aspect;
 import com.chr.common.annotation.AutoFill;
 import com.chr.common.constant.AutoFillConstant;
 import com.chr.common.enums.AutoFillType;
-import com.chr.common.utils.context.BaseContext;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -37,7 +36,9 @@ public class AutoFillAspect {
     public void concatPublicField(AutoFillType value, Object entity){
         //准备填充数据
         LocalDateTime now = LocalDateTime.now();
-        Long id = BaseContext.getCurrentId();
+        Long id = null;
+//        LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Long id = loginUser.getEmployee().getId();
         //根据对应的属性反射赋值
         if(value == AutoFillType.INSERT){
             try {

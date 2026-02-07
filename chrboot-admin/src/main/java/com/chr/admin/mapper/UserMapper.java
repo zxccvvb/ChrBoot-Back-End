@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
 * @author dell
-* @description 针对表【chr_user】的数据库操作Mapper
+* @description 针对表【user】的数据库操作Mapper
 * @createDate 2025-10-13 11:55:39
 * @Entity com.chr.admin.pojo.User
 */

@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
- * @TableName chr_user
+ * @TableName user
  */
-@TableName(value ="chr_user")
+@TableName(value ="sys_user")
 @Data
 public class User implements Serializable {
 

@@ -3,6 +3,7 @@ package com.chr.admin.service;
 import com.chr.admin.pojo.Employee;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chr.admin.pojo.dto.EmployeeLoginDTO;
+import com.chr.admin.pojo.dto.EmployeeRegisterDTO;
 import com.chr.common.result.Result;
 
 /**
@@ -19,6 +20,12 @@ public interface EmployeeService extends IService<Employee> {
      */
     Result login(EmployeeLoginDTO employeeLoginDTO);
 
+    /**
+     * 员工退出登录接口
+     * @return
+     */
+    Result logout();
+
 
     /**
      * 员工信息接口
@@ -28,8 +35,8 @@ public interface EmployeeService extends IService<Employee> {
 
     /**
      * 员工注册接口
-     * @param employeeLoginDTO
+     * @param employeeRegisterDTO
      * @return
      */
-    Result register(EmployeeLoginDTO employeeLoginDTO);
+    Result register(EmployeeRegisterDTO employeeRegisterDTO);
 }

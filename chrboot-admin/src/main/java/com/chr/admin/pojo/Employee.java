@@ -2,16 +2,18 @@ package com.chr.admin.pojo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.chr.admin.security.Auth;
 import lombok.Data;
 
 /**
- * @TableName chr_employee
+ * @TableName employee
  */
+@TableName(value ="sys_employee")
 @Data
-public class Employee implements Serializable {
+public class Employee implements Serializable , Auth {
     @TableId
     private Long id;
 
@@ -32,4 +34,6 @@ public class Employee implements Serializable {
     private Long createUser;
 
     private Long updateUser;
+
+
 }
