@@ -1,7 +1,6 @@
 package com.chr.admin.aspect;
 
 
-import com.chr.admin.security.Auth;
 import com.chr.admin.security.AuthDetails;
 import com.chr.common.annotation.AutoFill;
 import com.chr.common.constant.AutoFillConstant;
@@ -39,8 +38,14 @@ public class AutoFillAspect {
     public void concatPublicField(AutoFillType value, Object entity){
         //准备填充数据
         LocalDateTime now = LocalDateTime.now();
-        AuthDetails authDetails = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long id = authDetails.getAuth().getId();
+        Long id = null;
+        //判断是否在Context中有正确验证的对象
+        Object authDetails =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!(authDetails instanceof String)){
+            AuthDetails trueAuthDetails = (AuthDetails) authDetails;
+            id = trueAuthDetails.getAuth().getId();
+        }else{}
+
         //根据对应的属性反射赋值
         if(value == AutoFillType.INSERT){
             try {

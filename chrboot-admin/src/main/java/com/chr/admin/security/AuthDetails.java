@@ -1,6 +1,7 @@
 package com.chr.admin.security;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.chr.admin.pojo.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,11 +15,11 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class AuthDetails<T extends Auth> implements UserDetails {
-    private T auth;
+public class AuthDetails implements UserDetails {
+    private User auth;
     private ArrayList<String> permissions;
 
-    public AuthDetails(T auth, ArrayList<String> permissions) {
+    public AuthDetails(User auth, ArrayList<String> permissions) {
         this.auth = auth;
         this.permissions = permissions;
     }

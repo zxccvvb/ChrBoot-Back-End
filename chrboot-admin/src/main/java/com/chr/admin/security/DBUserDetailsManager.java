@@ -34,11 +34,11 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
     @Override
     public void createUser(UserDetails user) {
-        User loginUser = new User();
-        AuthDetails<User> authDetails = (AuthDetails<User>) user;
-        BeanUtils.copyProperties(authDetails.getAuth(),loginUser);
-        loginUser.setPassword(passwordEncoder.encode(loginUser.getPassword()));
-        userMapper.insert(loginUser);
+        User newUser = new User();
+        AuthDetails authDetails = (AuthDetails) user;
+        BeanUtils.copyProperties(authDetails.getAuth(),newUser);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        userMapper.insert(newUser);
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.chr.admin.security.Auth;
 import lombok.Data;
 
 /**
@@ -13,7 +12,7 @@ import lombok.Data;
  */
 @TableName(value ="sys_user")
 @Data
-public class User implements Serializable, Auth {
+public class User implements Serializable {
 
 
     @TableId(value = "user_id")

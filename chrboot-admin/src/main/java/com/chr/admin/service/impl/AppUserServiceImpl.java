@@ -63,7 +63,7 @@ public class AppUserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new ApiException(Business.ADMIN_LOGIN_PASSOWRD_ERROR);
         }
 
-        AuthDetails<User> principal = (AuthDetails<User>) authenticate.getPrincipal();
+        AuthDetails principal = (AuthDetails) authenticate.getPrincipal();
         User user = principal.getAuth();
         Long id = user.getId();
 
@@ -80,7 +80,7 @@ public class AppUserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public Result logout() {
-        AuthDetails<User> principal = (AuthDetails<User>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AuthDetails principal = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principal.getAuth();
         Long id = user.getId();
         redisTemplate.delete(JwtClaimsConstant.APP_LOGIN+id);
@@ -94,7 +94,7 @@ public class AppUserServiceImpl extends ServiceImpl<UserMapper, User>
      */
     @Override
     public Result info() {
-        AuthDetails<User> principal = (AuthDetails<User>) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        AuthDetails principal = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principal.getAuth();
         UserInfoVO userInfoVO = new UserInfoVO();
         BeanUtils.copyProperties(user, userInfoVO);
@@ -111,7 +111,7 @@ public class AppUserServiceImpl extends ServiceImpl<UserMapper, User>
     public Result register(UserRegisterDTO userRegisterDTO) {
         User user = new User();
         BeanUtils.copyProperties(userRegisterDTO,user);
-        AuthDetails<User> authDetails = new AuthDetails<>(user, null);
+        AuthDetails authDetails = new AuthDetails(user, null);
         dbUserDetailsManager.createUser(authDetails);
         return Result.ok("");
     }

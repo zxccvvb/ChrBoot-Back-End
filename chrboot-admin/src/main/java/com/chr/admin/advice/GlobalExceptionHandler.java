@@ -102,7 +102,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e){
         //异常打印错误堆栈
-//        e.printStackTrace();
+        e.printStackTrace();
         log.error(e.getMessage());
         return Result.build(null,500,e.getMessage());
     }
