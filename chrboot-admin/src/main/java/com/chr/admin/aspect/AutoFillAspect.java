@@ -1,6 +1,8 @@
 package com.chr.admin.aspect;
 
 
+import com.chr.admin.security.Auth;
+import com.chr.admin.security.AuthDetails;
 import com.chr.common.annotation.AutoFill;
 import com.chr.common.constant.AutoFillConstant;
 import com.chr.common.enums.AutoFillType;
@@ -10,6 +12,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
@@ -36,9 +39,8 @@ public class AutoFillAspect {
     public void concatPublicField(AutoFillType value, Object entity){
         //准备填充数据
         LocalDateTime now = LocalDateTime.now();
-        Long id = null;
-//        LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        Long id = loginUser.getEmployee().getId();
+        AuthDetails authDetails = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long id = authDetails.getAuth().getId();
         //根据对应的属性反射赋值
         if(value == AutoFillType.INSERT){
             try {

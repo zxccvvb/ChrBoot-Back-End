@@ -14,7 +14,7 @@ import lombok.Data;
 public class User implements Serializable {
 
 
-    @TableId
+    @TableId(value = "user_id")
     private Long id;
 
     private String nickname;
