@@ -1,15 +1,16 @@
--- 管理端数据表
--- 员工表
-CREATE TABLE `chrbootdatabase`.`sys_employee`
+-- 用户表
+CREATE TABLE `chrbootdatabase`.`sys_user`
 (
-    employee_id BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '员工id',
+    user_id     BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '用户id',
+    role_id     BIGINT                DEFAULT NULL COMMENT '角色id',
     nickname    VARCHAR(32)  NOT NULL UNIQUE COMMENT '昵称',
-    username    VARCHAR(32)  NOT NULL UNIQUE COMMENT '员工用户名',
-    password    VARCHAR(128) NOT NULL COMMENT '员工密码',
+    username    VARCHAR(32)  NOT NULL UNIQUE COMMENT '用户名',
+    password    VARCHAR(128) NOT NULL COMMENT '用户密码',
+    user_type   TINYINT(1)    NOT NULL DEFAULT 0 COMMENT '0:普通用户 1:管理员',
 
     status      TINYINT(1)   NOT NULL DEFAULT 1 COMMENT '状态 0:禁用，1:启用',
     is_deleted  BOOLEAN      NOT NULL DEFAULT 0 COMMENT '逻辑删除字段',
-    #   version    bigint NOT NULL DEFAULT 0 COMMENT '乐观锁字段',
+    #   `version    bigint NOT NULL DEFAULT 0 COMMENT '乐观锁字段',
     create_time DATETIME              DEFAULT NULL COMMENT '创建时间',
     update_time DATETIME              DEFAULT NULL COMMENT '更新时间',
     create_user BIGINT                DEFAULT NULL COMMENT '创建人',
@@ -70,27 +71,7 @@ CREATE TABLE `chrbootdatabase`.`sys_admin_role_menu`
 -- 管理端角色用户表
 CREATE TABLE `chrbootdatabase`.`sys_admin_role_employee`
 (
-    role_id BIGINT NOT NULL COMMENT '角色ID',
+    role_id     BIGINT NOT NULL COMMENT '角色ID',
     employee_id BIGINT NOT NULL COMMENT '用户ID',
     PRIMARY KEY (role_id, employee_id) -- 设置复合主键
 );
-
-
--- 用户端数据表
--- 用户表
-CREATE TABLE `chrbootdatabase`.`sys_user`
-(
-    user_id     BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '用户id',
-    role_id     BIGINT                DEFAULT NULL COMMENT '角色id',
-    nickname    VARCHAR(32)  NOT NULL UNIQUE COMMENT '昵称',
-    username    VARCHAR(32)  NOT NULL UNIQUE COMMENT '用户名',
-    password    VARCHAR(128) NOT NULL COMMENT '用户密码',
-
-    status      TINYINT(1)   NOT NULL DEFAULT 1 COMMENT '状态 0:禁用，1:启用',
-    is_deleted  BOOLEAN      NOT NULL DEFAULT 0 COMMENT '逻辑删除字段',
-    #   `version    bigint NOT NULL DEFAULT 0 COMMENT '乐观锁字段',
-    create_time DATETIME              DEFAULT NULL COMMENT '创建时间',
-    update_time DATETIME              DEFAULT NULL COMMENT '更新时间',
-    create_user BIGINT                DEFAULT NULL COMMENT '创建人',
-    update_user BIGINT                DEFAULT NULL COMMENT '修改人'
-) COMMENT ='用户表';

@@ -17,6 +17,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
         String jsonString = JSON.toJSONString(Result.build(null, 403, "权限不足"));
+        response.setContentType("application/json;charset=UTF-8");
         response.getWriter().println(jsonString);
     }
 }

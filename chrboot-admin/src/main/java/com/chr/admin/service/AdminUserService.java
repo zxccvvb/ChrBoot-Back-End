@@ -2,40 +2,37 @@ package com.chr.admin.service;
 
 import com.chr.admin.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chr.admin.pojo.dto.UserRegisterDTO;
-import com.chr.admin.pojo.dto.UserLoginDTO;
-import com.chr.admin.pojo.dto.UserPageQueryDTO;
-import com.chr.admin.pojo.dto.UserUpdateDTO;
+import com.chr.admin.pojo.dto.*;
 import com.chr.common.result.Result;
 
-/**
-* @author dell
-* @description 针对表【chr_user】的数据库操作Service
-* @createDate 2025-10-13 11:55:39
-*/
-public interface UserService extends IService<User> {
-
-    //    *************用户端*************
-    /**
-     * 注册
-     * @return
-     */
-    Result register(UserRegisterDTO userRegisterDTO);
-
+public interface AdminUserService extends IService<User> {
 
     /**
-     * 登录
+     * 登录接口
      * @param userLoginDTO
      * @return
      */
     Result login(UserLoginDTO userLoginDTO);
 
+    /**
+     * 退出登录接口
+     * @return
+     */
+    Result logout();
+
 
     /**
-     * 获取用户信息
+     * 信息接口
      * @return
      */
     Result info();
+
+    /**
+     * 注册接口
+     * @param userRegisterDTO
+     * @return
+     */
+    Result register(UserRegisterDTO userRegisterDTO);
 
 
     //    *************管理端*************

@@ -2,8 +2,8 @@ package com.chr.admin.security;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.chr.admin.mapper.EmployeeMapper;
-import com.chr.admin.pojo.Employee;
+import com.chr.admin.mapper.UserMapper;
+import com.chr.admin.pojo.User;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
 import org.springframework.beans.BeanUtils;
@@ -23,7 +23,7 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
 
     @Autowired
-    private EmployeeMapper employeeMapper;
+    private UserMapper userMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -34,11 +34,11 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
     @Override
     public void createUser(UserDetails user) {
-        Employee employee = new Employee();
-        AuthDetails<Employee> authDetails = (AuthDetails<Employee>) user;
-        BeanUtils.copyProperties(authDetails.getAuth(),employee);
-        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-        employeeMapper.insert(employee);
+        User loginUser = new User();
+        AuthDetails<User> authDetails = (AuthDetails<User>) user;
+        BeanUtils.copyProperties(authDetails.getAuth(),loginUser);
+        loginUser.setPassword(passwordEncoder.encode(loginUser.getPassword()));
+        userMapper.insert(loginUser);
     }
 
     @Override
@@ -63,11 +63,12 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
     @Override
     public UserDetails loadUserByUsername(String username){
-        Employee employee = employeeMapper.selectOne(new LambdaQueryWrapper<Employee>()
-                .eq(Employee::getUsername,username));
+        User employee = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                .eq(User::getUsername,username));
         if(employee==null){
             throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_NOTFOUND_ERROR);
         }else{
+            //TODO 查询权限
             ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("admin","test"));
             return new AuthDetails(employee,arrayList);
         }

@@ -25,7 +25,7 @@ import java.util.Objects;
  * 前后端分离的情况下实现jwt过滤器+redis来验证用户登录
  */
 @Component
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class JwtAuthenticationTokenAdminFilter extends OncePerRequestFilter {
 
 
     @Autowired
@@ -48,7 +48,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         }
         //解析token
         Claims claims = JwtHelper.parseJWT(jwtProperties.getAdminSecretKey(),token);
-        Object id =  claims.get(JwtClaimsConstant.EMP_ID);
+        Object id =  claims.get(JwtClaimsConstant.USER_ID);
 
         //检查当前token是否是redis中保存的最新token
         String lastAdviceToken = (String)redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_ADVICE + id);

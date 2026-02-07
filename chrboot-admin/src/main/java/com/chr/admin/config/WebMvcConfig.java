@@ -1,8 +1,6 @@
 package com.chr.admin.config;
 
 
-import com.chr.admin.interceptors.jwtTokenAdminInterceptor;
-import com.chr.admin.interceptors.jwtTokenUserInterceptor;
 import com.chr.common.json.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +17,6 @@ import java.util.List;
 @Slf4j
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private jwtTokenAdminInterceptor jwtTokenAdminInterceptor;
-    @Autowired
-    private jwtTokenUserInterceptor jwtTokenUserInterceptor;
 
     /**
      * 添加拦截器
@@ -30,13 +24,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
      */
     public void addInterceptors(InterceptorRegistry registry) {
         log.info("添加拦截器");
-//        registry.addInterceptor(jwtTokenAdminInterceptor)
-//                .addPathPatterns(new String[]{"/admin/**"})
-//                .excludePathPatterns(new String[]{"/admin/employee/login","/admin/employee/register"});
-//        registry.addInterceptor(jwtTokenUserInterceptor)
-//                .addPathPatterns(new String[]{"/user/**"})
-//                .excludePathPatterns(new String[]{"/user/user/login", "/user/user/register"});
-
     }
 
     /**

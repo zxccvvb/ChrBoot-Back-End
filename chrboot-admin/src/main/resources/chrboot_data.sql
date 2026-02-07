@@ -1,12 +1,8 @@
-INSERT INTO chrbootdatabase.sys_employee
-    (nickname, username, PASSWORD)
-VALUES ('admin', 'admin', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe'),
-       ('test', 'test', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
-
 INSERT INTO chrbootdatabase.sys_user
-    (nickname, username, PASSWORD)
-VALUES ('admin', 'admin', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe'),
-       ('test', 'test', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe');
+    (nickname, username, password,user_type)
+VALUES ('admin', 'admin', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe',1),
+       ('test', 'test', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe',1),
+       ('common', 'common', '$2a$10$gtZMB8L5t9Ce7kuf3liRpe1SJbAoPOXicsFgDZ3X6xPIJws/m2pGe',0);
 
 
 INSERT INTO chrbootdatabase.sys_admin_role

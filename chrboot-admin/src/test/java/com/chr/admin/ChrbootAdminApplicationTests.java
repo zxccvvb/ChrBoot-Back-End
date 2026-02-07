@@ -2,7 +2,7 @@ package com.chr.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.chr.admin.service.UserService;
+import com.chr.admin.service.AdminUserService;
 import com.chr.common.utils.http.HttpClientUtil;
 import com.chr.common.utils.i18n.MessageUtils;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ class ChrbootAdminApplicationTests {
 
 
     @Autowired
-    private UserService userService;
+    private AdminUserService adminUserService;
 
 
 
