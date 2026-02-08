@@ -1,5 +1,6 @@
 package com.chr.admin.pojo.vo;
 
+import com.chr.admin.pojo.SysAdminMenu;
 import com.chr.common.enums.dictionary.DictionaryData;
 import lombok.Data;
 
@@ -15,4 +16,6 @@ public class UserInfoVO implements Serializable {
     private Integer status;
 
     private Map<String, List<DictionaryData>> dictionary;
+    private List<String> buttons;
+    private List<SysAdminMenuVO> routes;
 }

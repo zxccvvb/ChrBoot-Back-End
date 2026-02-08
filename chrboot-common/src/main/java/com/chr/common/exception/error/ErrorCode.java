@@ -83,11 +83,11 @@ public enum ErrorCode implements ErrorCodeInterface {
         USER_REGISTER_NICKNAME_ERROR(10020,"用户昵称已存在","Business.test1"),
         USER_REGISTER_USERNAME_ERROR(10021,"用户名已存在","Business.test1"),
         USER_REGISTER_CONFIRMPASSWORD_ERROR(10022,"密码与确认密码不同","Business.test1"),
-        ADMIN_LOGIN_NOTFOUND_ERROR(10001,"员工不存在","Business.test1"),
-        ADMIN_LOGIN_PASSOWRD_ERROR(10002,"员工密码错误","Business.test1"),
-        ADMIN_LOGIN_REDIS_ERROR(10003,"用户未登录","Business.test1"),
-        ADMIN_LOGIN_JWT_ERROR(10004,"用户凭证已经过期","Business.test1"),
-        ADMIN_LOGIN_SESSION_ERROR(10005,"有其它用户登录","Business.test1"),
+        LOGIN_NOTFOUND_ERROR(10001,"用戶不存在","Business.test1"),
+        LOGIN_PASSOWRD_ERROR(10002,"用戶密码错误","Business.test1"),
+        LOGIN_REDIS_ERROR(10003,"用户未登录","Business.test1"),
+        LOGIN_JWT_ERROR(10004,"用户凭证已经过期","Business.test1"),
+        LOGIN_SESSION_ERROR(10005,"有其它用户登录","Business.test1"),
         ;
 
 

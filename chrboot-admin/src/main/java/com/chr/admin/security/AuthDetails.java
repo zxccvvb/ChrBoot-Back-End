@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AuthDetails implements UserDetails {
     private User auth;
-    private ArrayList<String> permissions;
+    private List<String> permissions;
 
-    public AuthDetails(User auth, ArrayList<String> permissions) {
+    public AuthDetails(User auth, List<String> permissions) {
         this.auth = auth;
         this.permissions = permissions;
     }

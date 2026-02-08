@@ -2,6 +2,7 @@ package com.chr.admin.security;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.chr.admin.mapper.SysAdminMenuMapper;
 import com.chr.admin.mapper.UserMapper;
 import com.chr.admin.pojo.User;
 import com.chr.common.exception.ApiException;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPasswordService {
@@ -26,6 +28,8 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
     private UserMapper userMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private SysAdminMenuMapper sysAdminMenuMapper;
 
     @Override
     public UserDetails updatePassword(UserDetails user, String newPassword) {
@@ -63,14 +67,13 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
     @Override
     public UserDetails loadUserByUsername(String username){
-        User employee = userMapper.selectOne(new LambdaQueryWrapper<User>()
+        User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
                 .eq(User::getUsername,username));
-        if(employee==null){
-            throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_NOTFOUND_ERROR);
+        if(user==null){
+            throw new ApiException(ErrorCode.Business.LOGIN_NOTFOUND_ERROR);
         }else{
-            //TODO 查询权限
-            ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("admin","test"));
-            return new AuthDetails(employee,arrayList);
+            List<String> permissions = sysAdminMenuMapper.selectPermissionsByUserId(user.getId());
+            return new AuthDetails(user,permissions);
         }
     }
 }

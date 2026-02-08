@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chr.admin.mapper.SysAdminMenuMapper;
+import com.chr.admin.pojo.SysAdminMenu;
 import com.chr.admin.pojo.dto.*;
+import com.chr.admin.pojo.vo.SysAdminMenuVO;
 import com.chr.admin.pojo.vo.UserInfoVO;
-import com.chr.admin.pojo.vo.UserVO;
 import com.chr.admin.security.AuthDetails;
 import com.chr.admin.security.DBUserDetailsManager;
 import com.chr.common.constant.JwtClaimsConstant;
@@ -56,6 +58,8 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User>
     private DBUserDetailsManager dbUserDetailsManager;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private SysAdminMenuMapper sysAdminMenuMapper;
 
 
     /**
@@ -70,7 +74,7 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User>
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         if(Objects.isNull(authenticate)){
-            throw new ApiException(Business.ADMIN_LOGIN_PASSOWRD_ERROR);
+            throw new ApiException(Business.LOGIN_PASSOWRD_ERROR);
         }
 
         AuthDetails principal = (AuthDetails) authenticate.getPrincipal();
@@ -109,6 +113,15 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User>
         UserInfoVO userInfoVO = new UserInfoVO();
         BeanUtils.copyProperties(user, userInfoVO);
         userInfoVO.setDictionary(dictionaryUtils.dictionaryCache());
+        userInfoVO.setButtons(principal.getPermissions());
+        List<SysAdminMenu> sysAdminMenus = sysAdminMenuMapper.selectRoutesByUserId(user.getId());
+        List<SysAdminMenuVO> sysAdminMenuVOS = new ArrayList<>();
+        for(SysAdminMenu sysAdminMenu : sysAdminMenus){
+            SysAdminMenuVO sysAdminMenuVO = new SysAdminMenuVO();
+            BeanUtils.copyProperties(sysAdminMenu,sysAdminMenuVO);
+            sysAdminMenuVOS.add(sysAdminMenuVO);
+        }
+        userInfoVO.setRoutes(sysAdminMenuVOS);
         return Result.ok(userInfoVO);
     }
 
@@ -137,14 +150,7 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User>
         IPage<User> page = new Page(userPageQueryDTO.getPageNum(), userPageQueryDTO.getPageSize());
         userMapper.selectPage(page, queryWrapper);
         List<User> userList = page.getRecords();
-        List<UserVO> userVOList = new ArrayList<>();
-        //脱敏
-        for (User user : userList) {
-            UserVO userVO = new UserVO();
-            BeanUtils.copyProperties(user, userVO);
-            userVOList.add(userVO);
-        }
-        PageResult<UserVO> pageResult = new PageResult<>(page.getTotal(), userVOList);
+        PageResult<User> pageResult = new PageResult<>(page.getTotal(), userList);
         return Result.ok(pageResult);
     }
 
@@ -174,9 +180,7 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public Result getUser(Long id) {
         User user = userMapper.selectById(id);
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(user, userVO);
-        return Result.ok(userVO);
+        return Result.ok(user);
     }
 }
 

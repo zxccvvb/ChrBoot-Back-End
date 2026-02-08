@@ -1,8 +1,7 @@
-package com.chr.admin.controller.user;
+package com.chr.admin.controller.app;
 
 
 import com.chr.admin.pojo.dto.*;
-import com.chr.admin.service.AdminUserService;
 import com.chr.admin.service.AppUserService;
 import com.chr.common.result.Result;
 import io.swagger.v3.oas.annotations.Operation;

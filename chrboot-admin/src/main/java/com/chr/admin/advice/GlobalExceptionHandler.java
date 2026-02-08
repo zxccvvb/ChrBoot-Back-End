@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -74,20 +76,24 @@ public class GlobalExceptionHandler {
         return Result.build(null,500,message);
     }
 
-    //springSecurity权限判断错误
-    @ExceptionHandler(AuthorizationDeniedException.class)
-    public Result handlerAuthorizationDeniedException(AuthorizationDeniedException e){
+
+    //SpringSecurity异常处理
+
+    //未验证
+    @ExceptionHandler(AuthenticationException.class)
+    public Result handlerAuthenticationException(AuthenticationException e){
+        log.error(e.getMessage());
+        String message = "请先登录";
+        return Result.build(null,401,message);
+
+    }
+
+    //权限不足
+    @ExceptionHandler(AccessDeniedException.class)
+    public Result handlerAuthorizationDeniedException(AccessDeniedException e){
         log.error(e.getMessage());
         String message = "权限不足";
         return Result.build(null,403,message);
-    }
-
-    //springSecurity判断密码时的错误
-    @ExceptionHandler(BadCredentialsException.class)
-    public Result handlerBadCredentialsException(BadCredentialsException e){
-        log.error(e.getMessage());
-        String message = "用户名或者密码错误";
-        return Result.build(null,500,message);
     }
 
     //业务异常处理

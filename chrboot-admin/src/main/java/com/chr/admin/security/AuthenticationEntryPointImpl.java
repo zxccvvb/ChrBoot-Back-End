@@ -1,6 +1,8 @@
 package com.chr.admin.security;
 
 import com.alibaba.fastjson.JSON;
+import com.chr.common.exception.ApiException;
+import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.result.Result;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,8 +18,9 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
-        String jsonString = JSON.toJSONString(Result.build(null, 403, "未认证的请求"));
-        response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().println(jsonString);
+//        String jsonString = JSON.toJSONString(Result.build(null, 401, "未认证的请求"));
+//        response.setContentType("application/json;charset=UTF-8");
+//        response.getWriter().println(jsonString);
+        throw  authException;
     }
 }

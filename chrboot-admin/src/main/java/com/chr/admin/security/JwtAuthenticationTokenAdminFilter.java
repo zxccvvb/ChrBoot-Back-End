@@ -1,12 +1,14 @@
 package com.chr.admin.security;
 
 import com.alibaba.druid.util.StringUtils;
+import com.chr.admin.mapper.SysAdminMenuMapper;
 import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.properties.JwtProperties;
 import com.chr.common.utils.jwt.JwtHelper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -33,6 +36,7 @@ public class JwtAuthenticationTokenAdminFilter extends OncePerRequestFilter {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //获取token
@@ -42,27 +46,36 @@ public class JwtAuthenticationTokenAdminFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-        //检查token是否过期
-        if(JwtHelper.isExpired(jwtProperties.getAdminSecretKey(),token)){
-            throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_JWT_ERROR);
-        }
+
+
         //解析token
-        Claims claims = JwtHelper.parseJWT(jwtProperties.getAdminSecretKey(),token);
-        Object id =  claims.get(JwtClaimsConstant.USER_ID);
+        Claims claims;
+        Object id;
+        //检查token是否过期
+        try {
+            claims = JwtHelper.parseJWT(jwtProperties.getAdminSecretKey(), token);
+            id = claims.get(JwtClaimsConstant.USER_ID);
+        } catch (ExpiredJwtException expiredJwtException) {
+            claims =  expiredJwtException.getClaims();
+            id = claims.get(JwtClaimsConstant.USER_ID);
+            redisTemplate.delete(JwtClaimsConstant.ADMIN_LOGIN + id);
+            redisTemplate.delete(JwtClaimsConstant.ADMIN_ADVICE + id);
+            throw new ApiException(ErrorCode.Business.LOGIN_JWT_ERROR);
+        }
+
 
         //检查当前token是否是redis中保存的最新token
         String lastAdviceToken = (String)redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_ADVICE + id);
         if(!StringUtils.equals(token,lastAdviceToken) && !StringUtils.isEmpty(lastAdviceToken)){
-            throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_SESSION_ERROR);
+            throw new ApiException(ErrorCode.Business.LOGIN_SESSION_ERROR);
         }
 
         //从redis中获取用户信息
         AuthDetails authDetails = (AuthDetails) redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_LOGIN + id);
         if(Objects.isNull(authDetails)){
-            throw new ApiException(ErrorCode.Business.ADMIN_LOGIN_REDIS_ERROR);
+            throw new ApiException(ErrorCode.Business.LOGIN_REDIS_ERROR);
         }
         //存入SecurityContextHolder
-        //TODO 获取权限信息
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(authDetails,null, authDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

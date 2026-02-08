@@ -60,7 +60,7 @@ public class AppUserServiceImpl extends ServiceImpl<UserMapper, User>
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         if(Objects.isNull(authenticate)){
-            throw new ApiException(Business.ADMIN_LOGIN_PASSOWRD_ERROR);
+            throw new ApiException(Business.LOGIN_PASSOWRD_ERROR);
         }
 
         AuthDetails principal = (AuthDetails) authenticate.getPrincipal();

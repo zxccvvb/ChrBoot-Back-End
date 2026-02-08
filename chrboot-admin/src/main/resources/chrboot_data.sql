@@ -25,12 +25,3 @@ VALUES (1, 1),
 INSERT INTO chrbootdatabase.sys_admin_role_employee
     (role_id, employee_id)
 VALUES (1, 1);
-
-# 查询id为1用户的所有权限
-SELECT DISTINCT m.`permission`
-FROM sys_admin_role_employee re
-         LEFT JOIN sys_admin_role r ON r.`role_id` = re.`role_id`
-         LEFT JOIN sys_admin_role_menu rm ON rm.`role_id` = r.`role_id`
-         LEFT JOIN sys_admin_menu m ON m.`menu_id` = rm.`menu_id`
-
-WHERE employee_id = 1
