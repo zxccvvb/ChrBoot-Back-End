@@ -70,24 +70,16 @@ public enum ErrorCode implements ErrorCodeInterface {
      */
     public enum Business implements ErrorCodeInterface {
 
-        USER_TOKEN_ERROR(10001,"token已经过期","Business.test1"),
         FILE_UPLOAD_ERROR(10002,"文件上传失败","Business.test1" ),
-        USER_EXIST_ERROR(10003,"用户已存在","Business.test1"),
-        USER_REGISTER_ERROR(10004,"用户注册失败","Business.test1"),
         USER_UPDATE_ERROR(10005,"用户修改失败","Business.test1"),
-        USER_LOGIN_ERROR(10006,"用户未登录","Business.test1"),
-        USER_NOT_EXIST_ERROR(10007,"用户名不存在","Business.test1"),
-        USER_PASSWORD_ERROR(10008,"用户密码错误","Business.test1"),
-        USER_DELETE_ERROR(10009,"用户删除失败","Business.test1"),
         USER_ADD_ERROR(10010,"用户添加失败","Business.test1"),
-        USER_REGISTER_NICKNAME_ERROR(10020,"用户昵称已存在","Business.test1"),
-        USER_REGISTER_USERNAME_ERROR(10021,"用户名已存在","Business.test1"),
-        USER_REGISTER_CONFIRMPASSWORD_ERROR(10022,"密码与确认密码不同","Business.test1"),
         LOGIN_NOTFOUND_ERROR(10001,"用戶不存在","Business.test1"),
         LOGIN_PASSOWRD_ERROR(10002,"用戶密码错误","Business.test1"),
         LOGIN_REDIS_ERROR(10003,"用户未登录","Business.test1"),
         LOGIN_JWT_ERROR(10004,"用户凭证已经过期","Business.test1"),
         LOGIN_SESSION_ERROR(10005,"有其它用户登录","Business.test1"),
+        LOGIN_STATUS_ERROR(10006,"用户已被锁定","Business.test1"),
+        ADMIN_PERMISSION_ERROR(10007,"权限不足无法登录","Business.test1"),
         ;
 
 

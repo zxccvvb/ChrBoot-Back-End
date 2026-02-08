@@ -1,22 +1,20 @@
-package com.chr.common.enums.common;
+package com.chr.common.enums.system;
 
 import com.chr.common.enums.dictionary.CssTag;
 import com.chr.common.enums.dictionary.Dictionary;
 import com.chr.common.enums.dictionary.DictionaryEnum;
 
-
-@Dictionary(name = "common.status")
-public enum StatusEnum implements DictionaryEnum<Integer> {
-
-    ENABLE(1, "正常", CssTag.PRIMARY),
-    DISABLE(0, "停用", CssTag.DANGER);
+@Dictionary(name = "system.userType")
+public enum UserType implements DictionaryEnum<Integer> {
+    ADMIN(1, "管理员", CssTag.PRIMARY),
+    NORMAL(0, "普通用户", CssTag.DANGER);
 
     private final Integer value;
     private final String label;
     private final String cssTag;
 
 
-    StatusEnum(Integer value, String label, String cssTag) {
+    UserType(Integer value, String label, String cssTag) {
         this.value = value;
         this.label = label;
         this.cssTag = cssTag;

@@ -15,7 +15,9 @@ import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.admin.pojo.User;
 import com.chr.admin.service.AdminUserService;
 import com.chr.admin.mapper.UserMapper;
+import com.chr.common.enums.common.StatusEnum;
 import com.chr.common.enums.dictionary.DictionaryUtils;
+import com.chr.common.enums.system.UserType;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode.Business;
 import com.chr.common.properties.JwtProperties;
@@ -79,6 +81,14 @@ public class AdminUserServiceImpl extends ServiceImpl<UserMapper, User>
 
         AuthDetails principal = (AuthDetails) authenticate.getPrincipal();
         User user = principal.getAuth();
+        //管理端登录判断用户类型
+        if(user.getUserType().equals(UserType.NORMAL.getValue())){
+            throw new ApiException(Business.ADMIN_PERMISSION_ERROR);
+        }
+        //判断用户是否启用
+        if(user.getStatus().equals(StatusEnum.DISABLE.getValue())){
+            throw new ApiException(Business.LOGIN_STATUS_ERROR);
+        }
         Long id = user.getId();
 
         Map<String,Object> claims = new HashMap<>();

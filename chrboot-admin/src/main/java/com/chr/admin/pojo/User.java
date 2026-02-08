@@ -22,6 +22,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private Integer status;
+    private Integer userType;
 
     //全局设置了删除的字段名
     private Boolean isDeleted;

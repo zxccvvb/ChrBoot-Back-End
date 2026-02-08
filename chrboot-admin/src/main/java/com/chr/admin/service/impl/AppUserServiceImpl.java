@@ -11,6 +11,7 @@ import com.chr.admin.security.AuthDetails;
 import com.chr.admin.security.DBUserDetailsManager;
 import com.chr.admin.service.AppUserService;
 import com.chr.common.constant.JwtClaimsConstant;
+import com.chr.common.enums.common.StatusEnum;
 import com.chr.common.enums.dictionary.DictionaryUtils;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode.Business;
@@ -65,6 +66,11 @@ public class AppUserServiceImpl extends ServiceImpl<UserMapper, User>
 
         AuthDetails principal = (AuthDetails) authenticate.getPrincipal();
         User user = principal.getAuth();
+
+        //判断用户是否启用
+        if(user.getStatus().equals(StatusEnum.DISABLE.getValue())){
+            throw new ApiException(Business.LOGIN_STATUS_ERROR);
+        }
         Long id = user.getId();
 
         Map<String,Object> claims = new HashMap<>();
