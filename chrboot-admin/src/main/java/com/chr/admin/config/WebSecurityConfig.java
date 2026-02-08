@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,7 +45,7 @@ public class WebSecurityConfig{
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // 默认强度 10，可改为 12-14 更安全（但更慢）
+        // 默认强度 10，强度越高越慢
         return new BCryptPasswordEncoder();
     }
 
@@ -93,7 +94,9 @@ public class WebSecurityConfig{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 // 禁用 CSRF（开发测试时，生产环境建议开启）
-                .csrf(csrf -> csrf.disable());
+                .csrf(csrf -> csrf.disable())
+                // 允许跨域并且使用webMvc配置的跨域规则
+                .cors(Customizer.withDefaults());
         return http.build();
     }
 
@@ -133,7 +136,9 @@ public class WebSecurityConfig{
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 })
                 // 禁用 CSRF（开发测试时，生产环境建议开启）
-                .csrf(csrf -> csrf.disable());
+                .csrf(csrf -> csrf.disable())
+                // 允许跨域并且使用webMvc配置的跨域规则
+                .cors(Customizer.withDefaults());
         return http.build();
     }
 

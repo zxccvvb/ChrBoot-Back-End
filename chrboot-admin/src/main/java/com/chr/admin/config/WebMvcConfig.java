@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -17,7 +18,26 @@ import java.util.List;
 @Slf4j
 public class WebMvcConfig implements WebMvcConfigurer {
 
-
+    /**
+     * 允许跨域
+     * @param registry
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry
+                //允许跨域的路径
+                .addMapping("/**")
+                //允许跨域的域名
+                .allowedOriginPatterns("*")
+                //允许的请求方式
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                //允许的header属性
+                .allowedHeaders("*")
+                //是否允许cookie
+                .allowCredentials(true)
+                //跨域允许时间
+                .maxAge(3600);
+    }
     /**
      * 添加拦截器
      * @param registry

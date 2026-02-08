@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController("adminUserController")
 @RequestMapping("/admin/user")
-@CrossOrigin
 @Tag(name = "用户接口")
 @Slf4j
 public class UserController {
