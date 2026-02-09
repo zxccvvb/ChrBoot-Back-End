@@ -1,0 +1,42 @@
+# 连接池配置
+spring:
+  application:
+    name:
+      chrboot
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  banner:
+    location: classpath:banner.txt
+  servlet:
+    multipart:
+      #  最大文件大小，默认为10M
+      max-file-size: 10MB
+      # 最大请求大小，默认为10M
+      max-request-size: 10MB
+  messages:
+    basename: messages
+    encoding: UTF-8
+#    第二顺位
+#    fallback-to-system-locale: false
+
+
+# mybatis-plus的配置
+mybatis-plus:
+  type-aliases-package: com.chr.**.db
+  global-config:
+    db-config:
+      logic-delete-field: isDeleted  #全局逻辑删除
+      id-type: auto #设置主键策略为自增长
+#      table-prefix: chr_ # 设置表的前缀
+  configuration:
+    auto-mapping-behavior: full #开启自动映射
+  mapper-locations: classpath*:/mapper/**/*.xml
+
+
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn

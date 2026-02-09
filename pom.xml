@@ -12,6 +12,9 @@
     <modules>
         <module>chrboot-admin</module>
         <module>chrboot-common</module>
+        <module>chrboot-infrastructure</module>
+        <module>chrboot-domain</module>
+        <module>chrboot-api</module>
     </modules>
     <packaging>pom</packaging>
 

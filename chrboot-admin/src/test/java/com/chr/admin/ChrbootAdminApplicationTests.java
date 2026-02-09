@@ -2,19 +2,19 @@ package com.chr.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.chr.admin.service.AdminUserService;
+import com.chr.admin.customize.service.login.LoginUserService;
 import com.chr.common.utils.http.HttpClientUtil;
 import com.chr.common.utils.i18n.MessageUtils;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ChrbootAdminApplicationTests {
+public class ChrbootAdminApplicationTests {
 
 
     @Autowired
-    private AdminUserService adminUserService;
+    private LoginUserService loginUserService;
 
 
 

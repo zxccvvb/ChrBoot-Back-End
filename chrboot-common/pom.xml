@@ -26,6 +26,12 @@
             <artifactId>jjwt-jackson</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- mybatis-plus  -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
         <!--阿里云OSS-->
         <!--引入httpClient-->
         <dependency>

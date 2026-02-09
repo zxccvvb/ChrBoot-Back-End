@@ -3,11 +3,11 @@ package com.chr.admin.controller.common;
 
 
 import com.chr.common.enums.dictionary.DictionaryData;
-import com.chr.admin.service.DictionaryService;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode.Business;
 import com.chr.common.result.Result;
 import com.chr.common.utils.oss.AliOssUtil;
+import com.chr.domain.common.dictionary.DictionaryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;

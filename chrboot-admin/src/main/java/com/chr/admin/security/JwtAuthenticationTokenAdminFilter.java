@@ -1,12 +1,12 @@
 package com.chr.admin.security;
 
 import com.alibaba.druid.util.StringUtils;
-import com.chr.admin.mapper.SysAdminMenuMapper;
 import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.properties.JwtProperties;
 import com.chr.common.utils.jwt.JwtHelper;
+import com.chr.domain.system.user.login.AuthDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 
 /**
