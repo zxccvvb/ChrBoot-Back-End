@@ -44,7 +44,6 @@ public class CommonController {
     @PostMapping("/upload")
     @Operation(summary = "文件上传接口")
     public Result<String> upload(MultipartFile file){
-        log.info("文件上传：{}",file);
         try {
             //获取原始的文件名
             String originalFilename = file.getOriginalFilename();
@@ -53,7 +52,6 @@ public class CommonController {
             //构造新的文件名
             String objectName = UUID.randomUUID().toString() + suffix;
             String path = aliOssUtil.upload(file.getBytes(),objectName);
-            log.info("文件上传成功，路径为：{}",path);
             return Result.ok(path);
         } catch (IOException e) {
             throw new ApiException(Business.FILE_UPLOAD_ERROR);

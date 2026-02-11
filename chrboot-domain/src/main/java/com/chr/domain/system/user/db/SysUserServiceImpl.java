@@ -9,6 +9,7 @@ import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.result.PageResult;
 import com.chr.common.result.Result;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
+import com.chr.domain.system.user.dto.SysUserAddDTO;
 import com.chr.domain.system.user.dto.SysUserPageQueryDTO;
 import com.chr.domain.system.user.dto.SysUserRegisterDTO;
 import com.chr.domain.system.user.dto.SysUserUpdateDTO;
@@ -27,42 +28,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     private SysUserMapper sysUserMapper;
 
     @Override
-    public Result getUserListPage(SysUserPageQueryDTO sysUserPageQueryDTO) {
+    public IPage<SysUser> getUserListPage(SysUserPageQueryDTO sysUserPageQueryDTO) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(sysUserPageQueryDTO.getNickname()!=null, SysUser::getNickname, sysUserPageQueryDTO.getNickname());
         IPage<SysUser> page = new Page(sysUserPageQueryDTO.getPageNum(), sysUserPageQueryDTO.getPageSize());
         sysUserMapper.selectPage(page, queryWrapper);
-        List<SysUser> sysUserList = page.getRecords();
-        PageResult<SysUser> pageResult = new PageResult<>(page.getTotal(), sysUserList);
-        return Result.ok(pageResult);
+        return page;
     }
 
     @Override
-    public Result updateUser(SysUserUpdateDTO sysUserUpdateDTO) {
+    public void updateUser(SysUserUpdateDTO sysUserUpdateDTO) {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(sysUserUpdateDTO, sysUser);
         int rows = sysUserMapper.updateById(sysUser);
         if(rows==0){
             throw new ApiException(ErrorCode.Business.USER_UPDATE_ERROR);
         }
-        return Result.ok("");
     }
 
 
     @Override
-    public Result addUser(SysUserRegisterDTO sysUserRegisterDTO) {
+    public void addUser(SysUserAddDTO sysUserAddDTO) {
         SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserRegisterDTO, sysUser);
+        BeanUtils.copyProperties(sysUserAddDTO, sysUser);
         int rows = sysUserMapper.insert(sysUser);
-        if(rows>0){
-            return Result.ok(null);
+        if(rows==0){
+            throw new ApiException(ErrorCode.Business.USER_ADD_ERROR);
         }
-        throw new ApiException(ErrorCode.Business.USER_ADD_ERROR);
     }
 
     @Override
-    public Result getUser(Long id) {
+    public SysUser getUser(Long id) {
         SysUser sysUser = sysUserMapper.selectById(id);
-        return Result.ok(sysUser);
+        return sysUser;
     }
 }

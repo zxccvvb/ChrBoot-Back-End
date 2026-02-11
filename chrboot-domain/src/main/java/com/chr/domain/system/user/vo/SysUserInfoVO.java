@@ -1,7 +1,7 @@
 package com.chr.domain.system.user.vo;
 
 import com.chr.common.enums.dictionary.DictionaryData;
-import com.chr.domain.system.menu.vo.SysAdminMenuVO;
+import com.chr.domain.system.menu.vo.SysMenuVO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,5 +17,5 @@ public class SysUserInfoVO implements Serializable {
 
     private Map<String, List<DictionaryData>> dictionary;
     private List<String> buttons;
-    private List<SysAdminMenuVO> routes;
+    private List<SysMenuVO> routes;
 }

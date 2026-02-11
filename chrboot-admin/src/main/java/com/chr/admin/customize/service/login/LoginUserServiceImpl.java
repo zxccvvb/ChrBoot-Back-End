@@ -1,11 +1,14 @@
 package com.chr.admin.customize.service.login;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chr.domain.system.menu.MenuApplicationService;
+import com.chr.domain.system.user.UserApplicationService;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
 import com.chr.domain.system.menu.db.mapper.SysMenuMapper;
 import com.chr.domain.system.menu.db.SysMenu;
-import com.chr.domain.system.menu.vo.SysAdminMenuVO;
+import com.chr.domain.system.menu.vo.SysMenuVO;
 import com.chr.domain.system.user.db.SysUser;
+import com.chr.domain.system.user.dto.SysUserAddDTO;
 import com.chr.domain.system.user.dto.SysUserLoginDTO;
 import com.chr.domain.system.user.dto.SysUserRegisterDTO;
 import com.chr.domain.system.user.vo.SysUserInfoVO;
@@ -39,12 +42,12 @@ import java.util.*;
 */
 
 @Slf4j
-@Service
+@Service("AdminLoginUserService")
 public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     implements LoginUserService {
 
     @Autowired
-    private SysUserMapper sysUserMapper;
+    private UserApplicationService userApplicationService;
     @Autowired
     private JwtProperties jwtProperties;
     @Autowired
@@ -56,7 +59,7 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
-    private SysMenuMapper sysMenuMapper;
+    private MenuApplicationService menuApplicationService;
 
 
     /**
@@ -119,14 +122,8 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         BeanUtils.copyProperties(sysUser, sysUserInfoVO);
         sysUserInfoVO.setDictionary(dictionaryUtils.dictionaryCache());
         sysUserInfoVO.setButtons(principal.getPermissions());
-        List<SysMenu> sysMenus = sysMenuMapper.selectRoutesByUserId(sysUser.getId());
-        List<SysAdminMenuVO> sysAdminMenuVOS = new ArrayList<>();
-        for(SysMenu sysMenu : sysMenus){
-            SysAdminMenuVO sysAdminMenuVO = new SysAdminMenuVO();
-            BeanUtils.copyProperties(sysMenu,sysAdminMenuVO);
-            sysAdminMenuVOS.add(sysAdminMenuVO);
-        }
-        sysUserInfoVO.setRoutes(sysAdminMenuVOS);
+        List<SysMenuVO> sysMenuVOS = menuApplicationService.getRoutesByUserId(sysUser.getId());
+        sysUserInfoVO.setRoutes(sysMenuVOS);
         return Result.ok(sysUserInfoVO);
     }
 
@@ -137,13 +134,10 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
      */
     @Override
     public Result register(SysUserRegisterDTO sysUserRegisterDTO) {
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserRegisterDTO, sysUser);
-        AuthDetails authDetails = new AuthDetails(sysUser, null);
-        SysUser newSysUser = new SysUser();
-        BeanUtils.copyProperties(authDetails.getAuth(), newSysUser);
+        SysUserAddDTO newSysUser = new SysUserAddDTO();
+        BeanUtils.copyProperties(sysUserRegisterDTO, newSysUser);
         newSysUser.setPassword(passwordEncoder.encode(newSysUser.getPassword()));
-        sysUserMapper.insert(newSysUser);
+        userApplicationService.addUser(newSysUser);
         return Result.ok("");
     }
 

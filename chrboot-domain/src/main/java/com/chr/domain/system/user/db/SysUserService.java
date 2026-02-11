@@ -1,10 +1,12 @@
 package com.chr.domain.system.user.db;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chr.common.result.Result;
+import com.chr.domain.system.user.dto.SysUserAddDTO;
 import com.chr.domain.system.user.dto.SysUserPageQueryDTO;
 import com.chr.domain.system.user.dto.SysUserRegisterDTO;
 import com.chr.domain.system.user.dto.SysUserUpdateDTO;
+
 
 public interface SysUserService extends IService<SysUser> {
 
@@ -15,7 +17,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUserPageQueryDTO
      * @return
      */
-    Result getUserListPage(SysUserPageQueryDTO sysUserPageQueryDTO);
+    IPage<SysUser> getUserListPage(SysUserPageQueryDTO sysUserPageQueryDTO);
 
 
     /**
@@ -23,20 +25,20 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUserUpdateDTO
      * @return
      */
-    Result updateUser(SysUserUpdateDTO sysUserUpdateDTO);
+    void updateUser(SysUserUpdateDTO sysUserUpdateDTO);
 
 
     /**
      *添加新用户
-     * @param sysUserRegisterDTO
+     * @param sysUserAddDTO
      * @return
      */
-    Result addUser(SysUserRegisterDTO sysUserRegisterDTO);
+    void addUser(SysUserAddDTO sysUserAddDTO);
 
     /**
      * 获取用户
      * @param id
      * @return
      */
-    Result getUser(Long id);
+    SysUser getUser(Long id);
 }

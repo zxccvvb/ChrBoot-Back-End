@@ -1,4 +1,4 @@
-package com.chr.domain.aspect;
+package com.chr.infrastructure.aspect.common;
 
 
 import com.chr.domain.system.user.login.AuthDetails;

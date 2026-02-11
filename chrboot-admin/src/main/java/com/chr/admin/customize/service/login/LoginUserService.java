@@ -17,6 +17,11 @@ public interface LoginUserService extends IService<SysUser> {
      * @return
      */
     public Result login(SysUserLoginDTO sysUserLoginDTO) ;
+
+    /**
+     * 用户登出接口
+     * @return
+     */
     public Result logout();
     /**
      * 用户信息接口

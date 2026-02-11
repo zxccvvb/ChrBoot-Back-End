@@ -1,4 +1,4 @@
-package com.chr.admin.security;
+package com.chr.admin.customize.config;
 
 import com.alibaba.druid.util.StringUtils;
 import com.chr.common.constant.JwtClaimsConstant;

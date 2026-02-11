@@ -1,4 +1,4 @@
-package com.chr.common.json;
+package com.chr.common.jackson;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

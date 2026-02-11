@@ -14,12 +14,12 @@ public class TestTask {
     @Autowired
     private WebSocketController webSocketController;
 
-    @Scheduled(cron = "0/5 * * * * ?") //每5秒执行一次
-    public void test1(){
-        log.info("定时任务开始执行...");
-        webSocketController.sendToAllClient("测试websocket");
-
-    }
+//    @Scheduled(cron = "0/5 * * * * ?") //每5秒执行一次
+//    public void test1(){
+//        log.info("定时任务开始执行...");
+//        webSocketController.sendToAllClient("测试websocket");
+//
+//    }
 
 
 }
