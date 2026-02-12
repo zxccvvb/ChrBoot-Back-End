@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @TableName(value ="sys_user")
 @Data
-public class SysUser implements Serializable {
+public class SysUserEntity{
 
 
     @TableId(value = "user_id")

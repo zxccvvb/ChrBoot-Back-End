@@ -4,19 +4,19 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 import com.chr.common.result.Result;
 
-import com.chr.domain.system.user.db.SysUser;
-import com.chr.domain.system.user.dto.SysUserLoginDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
+import com.chr.domain.system.user.db.SysUserEntity;
+import com.chr.domain.system.user.command.LoginUserCommand;
+import com.chr.domain.system.user.command.RegisterUserCommand;
 
 
-public interface LoginUserService extends IService<SysUser> {
+public interface LoginUserService extends IService<SysUserEntity> {
 
     /**
      * 用户登录接口
-     * @param sysUserLoginDTO
+     * @param loginUserCommand
      * @return
      */
-    public Result login(SysUserLoginDTO sysUserLoginDTO) ;
+    public Result login(LoginUserCommand loginUserCommand) ;
 
     /**
      * 用户登出接口
@@ -30,10 +30,10 @@ public interface LoginUserService extends IService<SysUser> {
     public Result info();
     /**
      * 用户注册接口
-     * @param sysUserRegisterDTO
+     * @param registerUserCommand
      * @return
      */
-    public Result register(SysUserRegisterDTO sysUserRegisterDTO);
+    public Result register(RegisterUserCommand registerUserCommand);
 
 
 }

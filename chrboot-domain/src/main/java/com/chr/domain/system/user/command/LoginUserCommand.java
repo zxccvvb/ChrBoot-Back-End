@@ -1,18 +1,12 @@
-package com.chr.domain.system.user.dto;
+package com.chr.domain.system.user.command;
 
 import com.chr.common.annotation.Password;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.io.Serializable;
-
-
 @Data
-public class SysUserRegisterDTO implements Serializable {
-
-    @NotBlank
-    private String nickname;
+public class LoginUserCommand {
 
     @NotBlank
     @Size(min = 5,max = 10, message = "用户名必须在5-10个字符之间")

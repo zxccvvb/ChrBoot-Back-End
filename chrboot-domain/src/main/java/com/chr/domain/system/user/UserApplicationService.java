@@ -1,22 +1,17 @@
 package com.chr.domain.system.user;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.chr.common.exception.ApiException;
-import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.result.PageResult;
-import com.chr.common.result.Result;
-import com.chr.domain.system.user.db.SysUser;
+import com.chr.domain.system.user.db.SysUserEntity;
 import com.chr.domain.system.user.db.SysUserService;
-import com.chr.domain.system.user.db.mapper.SysUserMapper;
-import com.chr.domain.system.user.dto.SysUserAddDTO;
-import com.chr.domain.system.user.dto.SysUserPageQueryDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
-import com.chr.domain.system.user.dto.SysUserUpdateDTO;
+import com.chr.domain.system.user.command.AddUserCommand;
+import com.chr.domain.system.user.model.UserModel;
+import com.chr.domain.system.user.model.UserModelFactory;
+import com.chr.domain.system.user.query.UserQuery;
+import com.chr.domain.system.user.command.UpdateUserCommand;
+import com.chr.domain.system.user.vo.UserVo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,26 +21,31 @@ import java.util.List;
 public class UserApplicationService {
 
     private final SysUserService sysUserService;
+    private final UserModelFactory userModelFactory;
 
-    public PageResult<SysUser> getUserListPage(SysUserPageQueryDTO sysUserPageQueryDTO) {
-        IPage<SysUser> page = sysUserService.getUserListPage(sysUserPageQueryDTO);
-        List<SysUser> sysUserList = page.getRecords();
-        PageResult<SysUser> pageResult = new PageResult<>(page.getTotal(), sysUserList);
+    public PageResult<SysUserEntity> getUserListPage(UserQuery userQuery) {
+        IPage<SysUserEntity> page = sysUserService.getUserListPage(userQuery);
+        List<SysUserEntity> sysUserEntityList = page.getRecords();
+        PageResult<SysUserEntity> pageResult = new PageResult<>(page.getTotal(), sysUserEntityList);
         return pageResult;
     }
 
-    public void updateUser(SysUserUpdateDTO sysUserUpdateDTO) {
-        sysUserService.updateUser(sysUserUpdateDTO);
+    public void updateUser(UpdateUserCommand command) {
+        UserModel userModel = userModelFactory.create();
+        userModel.loadUpdateCommand(command);
+        userModel.updateById();
     }
 
 
-    public void addUser(SysUserAddDTO sysUserAddDTO) {
-        sysUserService.addUser(sysUserAddDTO);
+    public void addUser(AddUserCommand command) {
+        UserModel userModel = userModelFactory.create();
+        userModel.loadAddCommand(command);
+        userModel.insert();
     }
 
-    public SysUser getUser(Long id) {
-        SysUser sysUser = sysUserService.getUser(id);
-        return sysUser;
+    public UserVo getUser(Long id) {
+        SysUserEntity sysUserEntity = sysUserService.getById(id);
+        return new UserVo(sysUserEntity);
     }
 
 }

@@ -12,12 +12,12 @@ import com.chr.common.exception.error.ErrorCode.Business;
 import com.chr.common.properties.JwtProperties;
 import com.chr.common.result.Result;
 import com.chr.common.utils.jwt.JwtHelper;
-import com.chr.domain.system.user.db.SysUser;
+import com.chr.domain.system.user.db.SysUserEntity;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
-import com.chr.domain.system.user.dto.SysUserLoginDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
+import com.chr.domain.system.user.command.LoginUserCommand;
+import com.chr.domain.system.user.command.RegisterUserCommand;
 import com.chr.domain.system.user.login.AuthDetails;
-import com.chr.domain.system.user.vo.SysUserInfoVO;
+import com.chr.domain.system.user.vo.UserInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import java.util.Objects;
 
 @Slf4j
 @Service
-public class AppUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
+public class AppUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity>
     implements AppUserService {
 
     @Autowired
@@ -53,13 +53,13 @@ public class AppUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
 
     /**
      * 用户登录接口
-     * @param sysUserLoginDTO
+     * @param loginUserCommand
      * @return
      */
     @Override
-    public Result login(SysUserLoginDTO sysUserLoginDTO) {
+    public Result login(LoginUserCommand loginUserCommand) {
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(sysUserLoginDTO.getUsername(), sysUserLoginDTO.getPassword());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginUserCommand.getUsername(), loginUserCommand.getPassword());
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         if(Objects.isNull(authenticate)){
@@ -67,13 +67,13 @@ public class AppUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         }
 
         AuthDetails principal = (AuthDetails) authenticate.getPrincipal();
-        SysUser sysUser = principal.getAuth();
+        SysUserEntity sysUserEntity = principal.getAuth();
 
         //判断用户是否启用
-        if(sysUser.getStatus().equals(StatusEnum.DISABLE.getValue())){
+        if(sysUserEntity.getStatus().equals(StatusEnum.DISABLE.getValue())){
             throw new ApiException(Business.LOGIN_STATUS_ERROR);
         }
-        Long id = sysUser.getId();
+        Long id = sysUserEntity.getId();
 
         Map<String,Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.USER_ID,id);
@@ -89,8 +89,8 @@ public class AppUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public Result logout() {
         AuthDetails principal = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysUser sysUser = principal.getAuth();
-        Long id = sysUser.getId();
+        SysUserEntity sysUserEntity = principal.getAuth();
+        Long id = sysUserEntity.getId();
         redisTemplate.delete(JwtClaimsConstant.APP_LOGIN+id);
         redisTemplate.delete(JwtClaimsConstant.APP_ADVICE+id);
         return Result.ok("");
@@ -103,23 +103,22 @@ public class AppUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public Result info() {
         AuthDetails principal = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysUser sysUser = principal.getAuth();
-        SysUserInfoVO sysUserInfoVO = new SysUserInfoVO();
-        BeanUtils.copyProperties(sysUser, sysUserInfoVO);
-        sysUserInfoVO.setDictionary(dictionaryUtils.dictionaryCache());
-        return Result.ok(sysUserInfoVO);
+        SysUserEntity sysUserEntity = principal.getAuth();
+        UserInfoVo userInfoVo = new UserInfoVo(sysUserEntity);
+        userInfoVo.setDictionary(dictionaryUtils.dictionaryCache());
+        return Result.ok(userInfoVo);
     }
 
     /**
      * 用户注册接口
-     * @param sysUserRegisterDTO
+     * @param registerUserCommand
      * @return
      */
     @Override
-    public Result register(SysUserRegisterDTO sysUserRegisterDTO) {
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserRegisterDTO, sysUser);
-        AuthDetails authDetails = new AuthDetails(sysUser, null);
+    public Result register(RegisterUserCommand registerUserCommand) {
+        SysUserEntity sysUserEntity = new SysUserEntity();
+        BeanUtils.copyProperties(registerUserCommand, sysUserEntity);
+        AuthDetails authDetails = new AuthDetails(sysUserEntity, null);
         dbUserDetailsManager.createUser(authDetails);
         return Result.ok("");
     }

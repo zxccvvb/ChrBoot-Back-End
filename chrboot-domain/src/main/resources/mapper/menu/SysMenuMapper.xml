@@ -31,19 +31,19 @@
 
     <select id="selectPermissionsByUserId" resultType="string">
         SELECT DISTINCT m.`permission`
-        FROM sys_role_employee re
-                 LEFT JOIN sys_role r ON r.`role_id` = re.`role_id`
+        FROM sys_role_user ru
+                 LEFT JOIN sys_role r ON r.`role_id` = ru.`role_id`
                  LEFT JOIN sys_role_menu rm ON rm.`role_id` = r.`role_id`
                  LEFT JOIN sys_menu m ON m.`menu_id` = rm.`menu_id`
-        WHERE employee_id = #{userId}
+        WHERE user_id = #{userId}
     </select>
 
     <select id="selectRoutesByUserId" resultMap="BaseResultMap">
         SELECT m.menu_id, m.menu_name, m.menu_type, m.router_name, m.parent_id, m.path, m.is_button, m.permission, m.meta_info, m.remark, m.status, m.is_deleted, m.create_time, m.update_time, m.create_user, m.update_user
-        FROM sys_role_employee re
-                 LEFT JOIN sys_role r ON r.`role_id` = re.`role_id`
+        FROM sys_role_user ru
+                 LEFT JOIN sys_role r ON r.`role_id` = ru.`role_id`
                  LEFT JOIN sys_role_menu rm ON rm.`role_id` = r.`role_id`
                  LEFT JOIN sys_menu m ON m.`menu_id` = rm.`menu_id`
-        WHERE employee_id = #{userId} AND M.is_button=0
+        WHERE user_id = #{userId} AND M.is_button=0
     </select>
 </mapper>

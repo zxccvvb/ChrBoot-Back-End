@@ -1,17 +1,17 @@
 package com.chr.api.service;
 
 import com.chr.common.result.Result;
-import com.chr.domain.system.user.dto.SysUserLoginDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
+import com.chr.domain.system.user.command.LoginUserCommand;
+import com.chr.domain.system.user.command.RegisterUserCommand;
 
 public interface AppUserService {
 
     /**
      * 登录接口
-     * @param sysUserLoginDTO
+     * @param loginUserCommand
      * @return
      */
-    Result login(SysUserLoginDTO sysUserLoginDTO);
+    Result login(LoginUserCommand loginUserCommand);
 
     /**
      * 退出登录接口
@@ -28,8 +28,8 @@ public interface AppUserService {
 
     /**
      * 注册接口
-     * @param sysUserRegisterDTO
+     * @param registerUserCommand
      * @return
      */
-    Result register(SysUserRegisterDTO sysUserRegisterDTO);
+    Result register(RegisterUserCommand registerUserCommand);
 }

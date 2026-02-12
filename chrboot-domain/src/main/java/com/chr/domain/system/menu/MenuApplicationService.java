@@ -21,7 +21,6 @@ public class MenuApplicationService {
 
 
     public List<SysMenuVO> getRoutesByUserId(Long userId){
-
         List<SysMenu> sysMenus = sysMenuService.getRoutesByUserId(userId);
         List<SysMenuVO> sysMenuVOS = new ArrayList<>();
         for(SysMenu sysMenu : sysMenus){

@@ -2,8 +2,8 @@ package com.chr.api.controller.app;
 
 
 import com.chr.common.result.Result;
-import com.chr.domain.system.user.dto.SysUserLoginDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
+import com.chr.domain.system.user.command.LoginUserCommand;
+import com.chr.domain.system.user.command.RegisterUserCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -24,9 +24,9 @@ public class UserController {
 
     @PostMapping("/login")
     @Operation(summary = "登录接口")
-    public Result login(@RequestBody @Valid SysUserLoginDTO sysUserLoginDTO){
-        log.info("用户登录：{}", sysUserLoginDTO);
-        Result result = appUserService.login(sysUserLoginDTO);
+    public Result login(@RequestBody @Valid LoginUserCommand loginUserCommand){
+        log.info("用户登录：{}", loginUserCommand);
+        Result result = appUserService.login(loginUserCommand);
         return result;
     }
 
@@ -40,9 +40,9 @@ public class UserController {
 
     @PostMapping("/register")
     @Operation(summary = "注册接口")
-    public Result register(@RequestBody @Valid SysUserRegisterDTO sysUserRegisterDTO){
-        log.info("用户注册：{}", sysUserRegisterDTO);
-        Result result = appUserService.register(sysUserRegisterDTO);
+    public Result register(@RequestBody @Valid RegisterUserCommand registerUserCommand){
+        log.info("用户注册：{}", registerUserCommand);
+        Result result = appUserService.register(registerUserCommand);
         return result;
     }
 

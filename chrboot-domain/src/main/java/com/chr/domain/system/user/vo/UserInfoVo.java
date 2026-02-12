@@ -2,14 +2,22 @@ package com.chr.domain.system.user.vo;
 
 import com.chr.common.enums.dictionary.DictionaryData;
 import com.chr.domain.system.menu.vo.SysMenuVO;
+import com.chr.domain.system.user.db.SysUserEntity;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 @Data
-public class SysUserInfoVO implements Serializable {
+public class UserInfoVo{
+
+    public UserInfoVo(SysUserEntity entity){
+        if(entity != null){
+            BeanUtils.copyProperties(entity, this);
+        }
+    }
     private Long id;
     private String nickname;
     private String username;

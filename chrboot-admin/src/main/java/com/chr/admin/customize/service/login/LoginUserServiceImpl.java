@@ -4,14 +4,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.domain.system.menu.MenuApplicationService;
 import com.chr.domain.system.user.UserApplicationService;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
-import com.chr.domain.system.menu.db.mapper.SysMenuMapper;
-import com.chr.domain.system.menu.db.SysMenu;
 import com.chr.domain.system.menu.vo.SysMenuVO;
-import com.chr.domain.system.user.db.SysUser;
-import com.chr.domain.system.user.dto.SysUserAddDTO;
-import com.chr.domain.system.user.dto.SysUserLoginDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
-import com.chr.domain.system.user.vo.SysUserInfoVO;
+import com.chr.domain.system.user.db.SysUserEntity;
+import com.chr.domain.system.user.command.AddUserCommand;
+import com.chr.domain.system.user.command.LoginUserCommand;
+import com.chr.domain.system.user.command.RegisterUserCommand;
+import com.chr.domain.system.user.vo.UserInfoVo;
 import com.chr.domain.system.user.login.AuthDetails;
 import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.enums.common.StatusEnum;
@@ -43,7 +41,7 @@ import java.util.*;
 
 @Slf4j
 @Service("AdminLoginUserService")
-public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
+public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity>
     implements LoginUserService {
 
     @Autowired
@@ -64,13 +62,13 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
 
     /**
      * 用户登录接口
-     * @param sysUserLoginDTO
+     * @param loginUserCommand
      * @return
      */
     @Override
-    public Result login(SysUserLoginDTO sysUserLoginDTO) {
+    public Result login(LoginUserCommand loginUserCommand) {
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(sysUserLoginDTO.getUsername(), sysUserLoginDTO.getPassword());
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginUserCommand.getUsername(), loginUserCommand.getPassword());
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         if(Objects.isNull(authenticate)){
@@ -78,16 +76,16 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         }
 
         AuthDetails principal = (AuthDetails) authenticate.getPrincipal();
-        SysUser sysUser = principal.getAuth();
+        SysUserEntity sysUserEntity = principal.getAuth();
         //管理端登录判断用户类型
-        if(sysUser.getUserType().equals(UserType.NORMAL.getValue())){
+        if(sysUserEntity.getUserType().equals(UserType.NORMAL.getValue())){
             throw new ApiException(Business.ADMIN_PERMISSION_ERROR);
         }
         //判断用户是否启用
-        if(sysUser.getStatus().equals(StatusEnum.DISABLE.getValue())){
+        if(sysUserEntity.getStatus().equals(StatusEnum.DISABLE.getValue())){
             throw new ApiException(Business.LOGIN_STATUS_ERROR);
         }
-        Long id = sysUser.getId();
+        Long id = sysUserEntity.getId();
 
         Map<String,Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.USER_ID,id);
@@ -103,8 +101,8 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public Result logout() {
         AuthDetails principal = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysUser sysUser = principal.getAuth();
-        Long id = sysUser.getId();
+        SysUserEntity sysUserEntity = principal.getAuth();
+        Long id = sysUserEntity.getId();
         redisTemplate.delete(JwtClaimsConstant.ADMIN_LOGIN+id);
         redisTemplate.delete(JwtClaimsConstant.ADMIN_ADVICE+id);
         return Result.ok("");
@@ -117,25 +115,24 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public Result info() {
         AuthDetails principal = (AuthDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysUser sysUser = principal.getAuth();
-        SysUserInfoVO sysUserInfoVO = new SysUserInfoVO();
-        BeanUtils.copyProperties(sysUser, sysUserInfoVO);
-        sysUserInfoVO.setDictionary(dictionaryUtils.dictionaryCache());
-        sysUserInfoVO.setButtons(principal.getPermissions());
-        List<SysMenuVO> sysMenuVOS = menuApplicationService.getRoutesByUserId(sysUser.getId());
-        sysUserInfoVO.setRoutes(sysMenuVOS);
-        return Result.ok(sysUserInfoVO);
+        SysUserEntity sysUserEntity = principal.getAuth();
+        UserInfoVo sysUserInfoVo = new UserInfoVo(sysUserEntity);
+        sysUserInfoVo.setDictionary(dictionaryUtils.dictionaryCache());
+        sysUserInfoVo.setButtons(principal.getPermissions());
+        List<SysMenuVO> sysMenuVOS = menuApplicationService.getRoutesByUserId(sysUserEntity.getId());
+        sysUserInfoVo.setRoutes(sysMenuVOS);
+        return Result.ok(sysUserInfoVo);
     }
 
     /**
      * 用户注册接口
-     * @param sysUserRegisterDTO
+     * @param registerUserCommand
      * @return
      */
     @Override
-    public Result register(SysUserRegisterDTO sysUserRegisterDTO) {
-        SysUserAddDTO newSysUser = new SysUserAddDTO();
-        BeanUtils.copyProperties(sysUserRegisterDTO, newSysUser);
+    public Result register(RegisterUserCommand registerUserCommand) {
+        AddUserCommand newSysUser = new AddUserCommand();
+        BeanUtils.copyProperties(registerUserCommand, newSysUser);
         newSysUser.setPassword(passwordEncoder.encode(newSysUser.getPassword()));
         userApplicationService.addUser(newSysUser);
         return Result.ok("");

@@ -3,8 +3,8 @@ package com.chr.admin.controller.common;
 
 import com.chr.admin.customize.service.login.LoginUserService;
 import com.chr.common.result.Result;
-import com.chr.domain.system.user.dto.SysUserLoginDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
+import com.chr.domain.system.user.command.LoginUserCommand;
+import com.chr.domain.system.user.command.RegisterUserCommand;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,8 +21,8 @@ public class LoginUserController {
 
     @PostMapping("/login")
     @Operation(summary = "登录接口")
-    public Result login(@RequestBody @Valid SysUserLoginDTO sysUserLoginDTO){
-        Result result = loginUserService.login(sysUserLoginDTO);
+    public Result login(@RequestBody @Valid LoginUserCommand loginUserCommand){
+        Result result = loginUserService.login(loginUserCommand);
         return result;
     }
 
@@ -35,8 +35,8 @@ public class LoginUserController {
 
     @PostMapping("/register")
     @Operation(summary = "注册接口")
-    public Result register(@RequestBody @Valid SysUserRegisterDTO sysUserRegisterDTO){
-        Result result = loginUserService.register(sysUserRegisterDTO);
+    public Result register(@RequestBody @Valid RegisterUserCommand registerUserCommand){
+        Result result = loginUserService.register(registerUserCommand);
         return result;
     }
 

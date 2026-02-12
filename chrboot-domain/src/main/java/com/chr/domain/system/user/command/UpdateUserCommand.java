@@ -1,4 +1,4 @@
-package com.chr.domain.system.user.dto;
+package com.chr.domain.system.user.command;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 
 @Data
-public class SysUserUpdateDTO implements Serializable {
+public class UpdateUserCommand{
 
     @NotNull
     private Long id;

@@ -1,11 +1,11 @@
-package com.chr.domain.system.user.dto;
+package com.chr.domain.system.user.query;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class SysUserPageQueryDTO implements Serializable {
+public class UserQuery {
     private int pageNum = 1;
     private int pageSize = 10;
     private String nickname;

@@ -13,15 +13,15 @@ VALUES ('超级管理员', 'admin', 1, 1, null, null),
 
 INSERT INTO chrbootdatabase.sys_menu
 (menu_name, menu_type, router_name, parent_id, path, is_button, permission, meta_info, remark)
-VALUES ('用户管理', 0, 'User', 0, '/system/sysUser/index', false, 'system:sysUser:list', '{}', ''),
-       ('用户添加', 0, '', 1, '/system/sysUser/index', true, 'system:sysUser:add', '{}', ''),
-       ('用户修改', 0, '', 1, '/system/sysUser/index', true, 'system:sysUser:edit', '{}', '');
+VALUES ('用户管理', 0, 'User', 0, '/system/user/index', false, 'system:user:list', '{}', ''),
+       ('用户添加', 0, '', 1, '/system/user/index', true, 'system:user:add', '{}', ''),
+       ('用户修改', 0, '', 1, '/system/user/index', true, 'system:user:edit', '{}', '');
 
 INSERT INTO chrbootdatabase.sys_role_menu
     (role_id, menu_id)
 VALUES (1, 1),
        (1, 2),
        (1, 3);
-INSERT INTO chrbootdatabase.sys_role_employee
-    (role_id, employee_id)
+INSERT INTO chrbootdatabase.sys_role_user
+    (role_id, user_id)
 VALUES (1, 1);

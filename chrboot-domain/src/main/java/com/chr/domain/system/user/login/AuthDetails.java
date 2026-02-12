@@ -1,7 +1,8 @@
 package com.chr.domain.system.user.login;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.chr.domain.system.user.db.SysUser;
+import com.chr.domain.system.user.db.SysUserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,15 +16,15 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class AuthDetails implements UserDetails {
-    private SysUser auth;
+    private SysUserEntity auth;
     private List<String> permissions;
 
-    public AuthDetails(SysUser auth, List<String> permissions) {
+    public AuthDetails(SysUserEntity auth, List<String> permissions) {
         this.auth = auth;
         this.permissions = permissions;
     }
 
-    @JSONField(serialize = false)
+    @JsonIgnore
     private List<GrantedAuthority> authorities;
 
 

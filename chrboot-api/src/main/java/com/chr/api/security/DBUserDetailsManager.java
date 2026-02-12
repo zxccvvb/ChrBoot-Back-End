@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
 import com.chr.domain.system.menu.db.mapper.SysMenuMapper;
-import com.chr.domain.system.user.db.SysUser;
+import com.chr.domain.system.user.db.SysUserEntity;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
 import com.chr.domain.system.user.login.AuthDetails;
 import org.springframework.beans.BeanUtils;
@@ -37,11 +37,11 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
     @Override
     public void createUser(UserDetails user) {
-        SysUser newSysUser = new SysUser();
+        SysUserEntity newSysUserEntity = new SysUserEntity();
         AuthDetails authDetails = (AuthDetails) user;
-        BeanUtils.copyProperties(authDetails.getAuth(), newSysUser);
-        newSysUser.setPassword(passwordEncoder.encode(newSysUser.getPassword()));
-        sysUserMapper.insert(newSysUser);
+        BeanUtils.copyProperties(authDetails.getAuth(), newSysUserEntity);
+        newSysUserEntity.setPassword(passwordEncoder.encode(newSysUserEntity.getPassword()));
+        sysUserMapper.insert(newSysUserEntity);
     }
 
     @Override
@@ -66,13 +66,13 @@ public class DBUserDetailsManager implements UserDetailsManager, UserDetailsPass
 
     @Override
     public UserDetails loadUserByUsername(String username){
-        SysUser sysUser = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUser>()
-                .eq(SysUser::getUsername,username));
-        if(sysUser ==null){
+        SysUserEntity sysUserEntity = sysUserMapper.selectOne(new LambdaQueryWrapper<SysUserEntity>()
+                .eq(SysUserEntity::getUsername,username));
+        if(sysUserEntity ==null){
             throw new ApiException(ErrorCode.Business.LOGIN_NOTFOUND_ERROR);
         }else{
-            List<String> permissions = sysMenuMapper.selectPermissionsByUserId(sysUser.getId());
-            return new AuthDetails(sysUser,permissions);
+            List<String> permissions = sysMenuMapper.selectPermissionsByUserId(sysUserEntity.getId());
+            return new AuthDetails(sysUserEntity,permissions);
         }
     }
 }

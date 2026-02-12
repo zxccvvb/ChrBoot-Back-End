@@ -1,15 +1,14 @@
-package com.chr.domain.system.user.dto;
+package com.chr.domain.system.user.command;
 
 import com.chr.common.annotation.Password;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class SysUserAddDTO implements Serializable {
+public class AddUserCommand {
 
     @NotBlank
     private String nickname;

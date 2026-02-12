@@ -32,7 +32,7 @@ public class AutoFillAspect {
     @Pointcut("execution(* com.chr.domain..db.*Mapper.*(..)) && @annotation(com.chr.common.annotation.AutoFill)")
     public void autoFillPointCut(){}
 
-    @Pointcut("execution(* com.chr.domain..db.*Mapper.insert*(..)) || execution(* com.chr.domain..db.*Mapper.update*(..))")
+    @Pointcut("execution(* com.chr.domain..*Mapper.insert*(..)) || execution(* com.chr.domain..*Mapper.update*(..))")
     public void insertUpdatePointCut(){}
 
     public void concatPublicField(AutoFillType value, Object entity){

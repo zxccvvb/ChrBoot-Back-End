@@ -69,9 +69,9 @@ CREATE TABLE `chrbootdatabase`.`sys_role_menu`
 );
 
 -- 管理端角色用户表
-CREATE TABLE `chrbootdatabase`.`sys_role_employee`
+CREATE TABLE `chrbootdatabase`.`sys_role_user`
 (
     role_id     BIGINT NOT NULL COMMENT '角色ID',
-    employee_id BIGINT NOT NULL COMMENT '用户ID',
-    PRIMARY KEY (role_id, employee_id) -- 设置复合主键
+    user_id BIGINT NOT NULL COMMENT '用户ID',
+    PRIMARY KEY (role_id, user_id) -- 设置复合主键
 );

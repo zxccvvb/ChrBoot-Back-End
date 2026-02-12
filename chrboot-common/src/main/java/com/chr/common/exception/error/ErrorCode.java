@@ -70,6 +70,17 @@ public enum ErrorCode implements ErrorCodeInterface {
      */
     public enum Business implements ErrorCodeInterface {
 
+        // ----------------------------- COMMON --------------------------------------
+
+        COMMON_OBJECT_NOT_FOUND(10001, "找不到ID为 {} 的 {}", "Business.OBJECT_NOT_FOUND"),
+
+        COMMON_UNSUPPORTED_OPERATION(10002, "不支持的操作", "Business.UNSUPPORTED_OPERATION"),
+
+        COMMON_BULK_DELETE_IDS_IS_INVALID(10003, "批量参数ID列表为空", "Business.BULK_DELETE_IDS_IS_INVALID"),
+
+        COMMON_FILE_NOT_ALLOWED_TO_DOWNLOAD(10004, "文件名称({})非法，不允许下载", "Business.FILE_NOT_ALLOWED_TO_DOWNLOAD"),
+
+
         FILE_UPLOAD_ERROR(10002,"文件上传失败","Business.test1" ),
         USER_UPDATE_ERROR(10005,"用户修改失败","Business.test1"),
         USER_ADD_ERROR(10010,"用户添加失败","Business.test1"),

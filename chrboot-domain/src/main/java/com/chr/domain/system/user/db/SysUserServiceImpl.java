@@ -6,60 +6,43 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
-import com.chr.common.result.PageResult;
-import com.chr.common.result.Result;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
-import com.chr.domain.system.user.dto.SysUserAddDTO;
-import com.chr.domain.system.user.dto.SysUserPageQueryDTO;
-import com.chr.domain.system.user.dto.SysUserRegisterDTO;
-import com.chr.domain.system.user.dto.SysUserUpdateDTO;
+import com.chr.domain.system.user.command.AddUserCommand;
+import com.chr.domain.system.user.query.UserQuery;
+import com.chr.domain.system.user.command.UpdateUserCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Slf4j
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity>
     implements SysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public IPage<SysUser> getUserListPage(SysUserPageQueryDTO sysUserPageQueryDTO) {
-        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(sysUserPageQueryDTO.getNickname()!=null, SysUser::getNickname, sysUserPageQueryDTO.getNickname());
-        IPage<SysUser> page = new Page(sysUserPageQueryDTO.getPageNum(), sysUserPageQueryDTO.getPageSize());
+    public IPage<SysUserEntity> getUserListPage(UserQuery userQuery) {
+        LambdaQueryWrapper<SysUserEntity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(userQuery.getNickname()!=null, SysUserEntity::getNickname, userQuery.getNickname());
+        IPage<SysUserEntity> page = new Page(userQuery.getPageNum(), userQuery.getPageSize());
         sysUserMapper.selectPage(page, queryWrapper);
         return page;
     }
 
-    @Override
-    public void updateUser(SysUserUpdateDTO sysUserUpdateDTO) {
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserUpdateDTO, sysUser);
-        int rows = sysUserMapper.updateById(sysUser);
-        if(rows==0){
-            throw new ApiException(ErrorCode.Business.USER_UPDATE_ERROR);
-        }
-    }
-
 
     @Override
-    public void addUser(SysUserAddDTO sysUserAddDTO) {
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserAddDTO, sysUser);
-        int rows = sysUserMapper.insert(sysUser);
+    public void addUser(SysUserEntity entity) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+        int rows = sysUserMapper.insert(entity);
         if(rows==0){
             throw new ApiException(ErrorCode.Business.USER_ADD_ERROR);
         }
     }
 
-    @Override
-    public SysUser getUser(Long id) {
-        SysUser sysUser = sysUserMapper.selectById(id);
-        return sysUser;
-    }
 }
