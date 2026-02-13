@@ -1,6 +1,5 @@
-package com.chr.domain.system.user.login;
+package com.chr.infrastructure.login;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.chr.domain.system.user.db.SysUserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

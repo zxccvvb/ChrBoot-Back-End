@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chr.domain.system.menu.db.mapper.SysMenuMapper">
 
-    <resultMap id="BaseResultMap" type="com.chr.domain.system.menu.db.SysMenu">
+    <resultMap id="BaseResultMap" type="com.chr.domain.system.menu.db.SysMenuEntity">
             <id property="menuId" column="menu_id" />
             <result property="menuName" column="menu_name" />
             <result property="menuType" column="menu_type" />

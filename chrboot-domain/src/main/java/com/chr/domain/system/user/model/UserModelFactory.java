@@ -24,14 +24,14 @@ public class UserModelFactory {
     private final SysUserService sysUserService;
     private final SysRoleUserService sysRoleUserService;
 
-    public UserModel loadById(Long userId) {
-        SysUserEntity byId = sysUserService.getById(userId);
+    public UserModel loadById(Long id) {
+        SysUserEntity byId = sysUserService.getById(id);
         if (byId == null) {
-            throw new ApiException(ErrorCode.Business.COMMON_OBJECT_NOT_FOUND, userId, "用户");
+            throw new ApiException(ErrorCode.Business.COMMON_OBJECT_NOT_FOUND, id, "用户");
         }
 
         LambdaQueryWrapper<SysRoleUserEntity> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysRoleUserEntity::getUserId, userId);
+        queryWrapper.eq(SysRoleUserEntity::getUserId, id);
         List<Long> roleIds = sysRoleUserService.list(queryWrapper).stream().map(SysRoleUserEntity::getRoleId)
                 .collect(Collectors.toList());
 

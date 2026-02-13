@@ -3,7 +3,7 @@ package com.chr.domain.system.menu.vo;
 import lombok.Data;
 
 @Data
-public class SysMenuVO {
+public class MenuVO {
     private Long menuId;
 
     private String menuName;

@@ -1,7 +1,7 @@
 package com.chr.infrastructure.aspect.common;
 
 
-import com.chr.domain.system.user.login.AuthDetails;
+import com.chr.infrastructure.login.AuthDetails;
 import com.chr.common.annotation.AutoFill;
 import com.chr.common.constant.AutoFillConstant;
 import com.chr.common.enums.AutoFillType;

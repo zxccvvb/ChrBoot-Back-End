@@ -6,7 +6,7 @@ import com.chr.common.exception.error.ErrorCode;
 import com.chr.domain.system.menu.db.mapper.SysMenuMapper;
 import com.chr.domain.system.user.db.SysUserEntity;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
-import com.chr.domain.system.user.login.AuthDetails;
+import com.chr.infrastructure.login.AuthDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

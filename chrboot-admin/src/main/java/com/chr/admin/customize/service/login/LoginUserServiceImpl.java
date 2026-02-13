@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chr.domain.system.menu.MenuApplicationService;
 import com.chr.domain.system.user.UserApplicationService;
 import com.chr.domain.system.user.db.mapper.SysUserMapper;
-import com.chr.domain.system.menu.vo.SysMenuVO;
+import com.chr.domain.system.menu.vo.MenuVO;
 import com.chr.domain.system.user.db.SysUserEntity;
 import com.chr.domain.system.user.command.AddUserCommand;
 import com.chr.domain.system.user.command.LoginUserCommand;
 import com.chr.domain.system.user.command.RegisterUserCommand;
 import com.chr.domain.system.user.vo.UserInfoVo;
-import com.chr.domain.system.user.login.AuthDetails;
+import com.chr.infrastructure.login.AuthDetails;
 import com.chr.common.constant.JwtClaimsConstant;
 import com.chr.common.enums.common.StatusEnum;
 import com.chr.common.enums.dictionary.DictionaryUtils;
@@ -119,8 +119,8 @@ public class LoginUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEnti
         UserInfoVo sysUserInfoVo = new UserInfoVo(sysUserEntity);
         sysUserInfoVo.setDictionary(dictionaryUtils.dictionaryCache());
         sysUserInfoVo.setButtons(principal.getPermissions());
-        List<SysMenuVO> sysMenuVOS = menuApplicationService.getRoutesByUserId(sysUserEntity.getId());
-        sysUserInfoVo.setRoutes(sysMenuVOS);
+        List<MenuVO> menuVOS = menuApplicationService.getRoutesByUserId(sysUserEntity.getId());
+        sysUserInfoVo.setRoutes(menuVOS);
         return Result.ok(sysUserInfoVo);
     }
 

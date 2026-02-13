@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 
-public interface SysMenuService extends IService<SysMenu> {
+public interface SysMenuService extends IService<SysMenuEntity> {
 
     /**
      * 根据用户id获取用户权限
@@ -20,5 +20,5 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param userId
      * @return
      */
-    List<SysMenu> getRoutesByUserId(Long userId);
+    List<SysMenuEntity> getRoutesByUserId(Long userId);
 }

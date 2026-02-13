@@ -1,8 +1,8 @@
 package com.chr.domain.system.menu;
 
-import com.chr.domain.system.menu.db.SysMenu;
+import com.chr.domain.system.menu.db.SysMenuEntity;
 import com.chr.domain.system.menu.db.SysMenuService;
-import com.chr.domain.system.menu.vo.SysMenuVO;
+import com.chr.domain.system.menu.vo.MenuVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,14 @@ public class MenuApplicationService {
     }
 
 
-    public List<SysMenuVO> getRoutesByUserId(Long userId){
-        List<SysMenu> sysMenus = sysMenuService.getRoutesByUserId(userId);
-        List<SysMenuVO> sysMenuVOS = new ArrayList<>();
-        for(SysMenu sysMenu : sysMenus){
-            SysMenuVO sysMenuVO = new SysMenuVO();
-            BeanUtils.copyProperties(sysMenu, sysMenuVO);
-            sysMenuVOS.add(sysMenuVO);
+    public List<MenuVO> getRoutesByUserId(Long userId){
+        List<SysMenuEntity> sysMenuEntities = sysMenuService.getRoutesByUserId(userId);
+        List<MenuVO> menuVOS = new ArrayList<>();
+        for(SysMenuEntity sysMenuEntity : sysMenuEntities){
+            MenuVO menuVO = new MenuVO();
+            BeanUtils.copyProperties(sysMenuEntity, menuVO);
+            menuVOS.add(menuVO);
         }
-        return sysMenuVOS;
+        return menuVOS;
     }
 }

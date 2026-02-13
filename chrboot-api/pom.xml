@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.chr</groupId>
-            <artifactId>chrboot-domain</artifactId>
+            <artifactId>chrboot-infrastructure</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

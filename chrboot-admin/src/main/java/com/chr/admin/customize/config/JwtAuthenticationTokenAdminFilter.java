@@ -6,7 +6,7 @@ import com.chr.common.exception.ApiException;
 import com.chr.common.exception.error.ErrorCode;
 import com.chr.common.properties.JwtProperties;
 import com.chr.common.utils.jwt.JwtHelper;
-import com.chr.domain.system.user.login.AuthDetails;
+import com.chr.infrastructure.login.AuthDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -71,7 +71,7 @@ public class JwtAuthenticationTokenAdminFilter extends OncePerRequestFilter {
 
         //从redis中获取用户信息
         AuthDetails authDetails = (AuthDetails) redisTemplate.opsForValue().get(JwtClaimsConstant.ADMIN_LOGIN + id);
-        if(Objects.isNull(authDetails)){
+        if(StringUtils.isEmpty(lastAdviceToken) || Objects.isNull(authDetails)){
             throw new ApiException(ErrorCode.Business.LOGIN_REDIS_ERROR);
         }
         //存入SecurityContextHolder
