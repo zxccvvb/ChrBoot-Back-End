@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCaching //开启缓存
 @EnableScheduling //开启任务调度
 @ComponentScan(basePackages = "com.chr.*")
-@ImportAutoConfiguration(exclude = {WebSocketConfig.class}) // 或者
 public class ChrbootAdminApplication {
 
     public static void main(String[] args) {
