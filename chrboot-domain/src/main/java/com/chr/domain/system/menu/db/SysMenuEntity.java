@@ -2,10 +2,13 @@ package com.chr.domain.system.menu.db;
 
 import java.time.LocalDateTime;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
 public class SysMenuEntity {
+
+    @TableId
     private Long menuId;
 
     private String menuName;

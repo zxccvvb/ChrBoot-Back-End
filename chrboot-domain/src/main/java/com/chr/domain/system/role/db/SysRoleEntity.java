@@ -1,5 +1,6 @@
 package com.chr.domain.system.role.db;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,8 @@ import lombok.Data;
 @TableName(value ="sys_role")
 @Data
 public class SysRoleEntity {
+
+    @TableId
     private Long roleId;
 
     private String roleName;
